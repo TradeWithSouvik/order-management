@@ -41,11 +41,16 @@ function formatDate(date) {
 
 
 async function init(){
+    if(conf.userId&&conf.password){
         loginCred = await client.login(...creds)
         await client.init(loginCred)
         storedData = await persist.get()
         storedData.fpLogin=true
         await persist.set(storedData)
+    }
+    else {
+        throw "No creds"
+    }
 }
 
 async function placeOrder(strategyId,orders,expiry){
