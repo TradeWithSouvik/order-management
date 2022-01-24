@@ -16,6 +16,13 @@ module.exports={
    })}
 }
 
+async function waitAWhile(time){
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,time)
+    })
+    
+}
+
 async function run (updateCallback) {
     console.log("Connected to Server")
 
@@ -33,6 +40,9 @@ async function run (updateCallback) {
     catch(e){
         console.log("Could not initialize 5Paisa",e)
     }
+    socket.on("disconnect", () => {
+        console.log("Disconnected from server")
+    });
 
     socket.on("kite-login",async request=>{
         const {requestToken}=request
