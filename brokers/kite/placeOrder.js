@@ -19,42 +19,47 @@ module.exports={
                     let completedOrders=[]
                     let ackOrdersCount=0
                     kite.subscribe(async(data)=>{
-                        const postbackOrders=Object.keys(data).map(JSON.parse)
-                        const statusMap={}
-                        let isComplete=true
-                        ackOrdersCount=0
-                        for(const order of postbackOrders){
-                            const orderId = order.order_id
-                            postbacks.push(orderId)
-                            statusMap[orderId]=order.status
-                            if(requestedOrderIds.length>0){
-                                for(const id of requestedOrderIds){
-                                    if(!postbacks.includes(id)){
-                                        isComplete=false
-                                        break;
-                                    }
-                                    else if(statusMap[id]&&statusMap[id]==="UPDATE"){
-                                        console.log(`Order update for ${id} ${statusMap[id]}`)
-                                    }
-                                    else if(statusMap[id]&&statusMap[id]!=="COMPLETE"){
-                                        isComplete=false
-                                        bot.sendMessage(`Error in Placing kite Order : Order failed for ${id} ${statusMap[id]}`)
-                                        break;
-                                    }
-                                    if(statusMap[id]&&statusMap[id]==="COMPLETE"){
-                                        ackOrdersCount++;
+                        try{
+                            const postbackOrders=Object.keys(data).map(JSON.parse)
+                            const statusMap={}
+                            let isComplete=true
+                            ackOrdersCount=0
+                            for(const order of postbackOrders){
+                                const orderId = order.order_id
+                                postbacks.push(orderId)
+                                statusMap[orderId]=order.status
+                                if(requestedOrderIds.length>0){
+                                    for(const id of requestedOrderIds){
+                                        if(!postbacks.includes(id)){
+                                            isComplete=false
+                                            break;
+                                        }
+                                        else if(statusMap[id]&&statusMap[id]==="UPDATE"){
+                                            console.log(`Order update for ${id} ${statusMap[id]}`)
+                                        }
+                                        else if(statusMap[id]&&statusMap[id]!=="COMPLETE"){
+                                            isComplete=false
+                                            bot.sendMessage(`Error in Placing kite Order : Order failed for ${id} ${statusMap[id]}`)
+                                            break;
+                                        }
+                                        if(statusMap[id]&&statusMap[id]==="COMPLETE"){
+                                            ackOrdersCount++;
+                                        }
                                     }
                                 }
                             }
+                            if(isComplete&&requestedOrderIds.length>0&&postbackOrders.length>0){
+                                bot.sendMessage(`All Kite orders were successful`)
+                                kite.subscribe(console.log)
+                                storedData=await persist.get()
+                                storedData.kiteUpdates=storedData.kiteUpdates||[]
+                                storedData.kiteUpdates.push({timestamp:formatDateTime(new Date()),message:"All orders successful",strategyId})
+                                await persist.set(storedData)
+                                        
+                            }
                         }
-                        if(isComplete&&requestedOrderIds.length>0&&postbackOrders.length>0){
-                            bot.sendMessage(`All Kite orders were successful`)
-                            kite.subscribe(console.log)
-                            storedData=await persist.get()
-                            storedData.kiteUpdates=storedData.kiteUpdates||[]
-                            storedData.kiteUpdates.push({timestamp:formatDateTime(new Date()),message:"All orders successful",strategyId})
-                            await persist.set(storedData)
-                                    
+                        catch(e){
+                            console.log("Failed webhook data",e)
                         }
                         
                     })
