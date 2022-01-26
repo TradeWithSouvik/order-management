@@ -745,6 +745,39 @@ tr,td,th,thead,tbody{
                         </tbody>
                     </table>
                 </div>
+
+                
+            </div>
+
+            <div v-if="fvResponses.length>0">
+              <br/>
+              <br/>
+              <h2>Finvasia Orders</h2>
+              <br/>
+              <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>OrderId</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(order,index) of fvResponses" :key="index">
+                            <td>
+                                {{order.strategyId}}
+                            </td>
+                            <td>
+                                {{order.norenordno}}
+                            </td>
+                            <td>
+                                {{order.time}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
             </div>
 
             <br/>
@@ -803,6 +836,7 @@ tr,td,th,thead,tbody{
                 orders:[],
                 kiteResponses:[],
                 fpResponses:[],
+                fvResponses:[],
                 loader:false,
                 kiteKey:""
             },
@@ -853,6 +887,22 @@ tr,td,th,thead,tbody{
                               })
                           })
                           this.fpResponses=this.fpResponses.reverse()
+                        }
+                        catch(e){
+                          console.log("fp error",e)
+                        }
+
+                        this.fvResponses=[]
+                        try{
+                          
+                          this.data.fvResponses.forEach(el=>{
+                              el.responses.forEach(order=>{
+                                  order.time=el.timestamp
+                                  order.strategyId=el.strategyId
+                                  this.fvResponses.push(order)
+                              })
+                          })
+                          this.fvResponses=this.fvResponses.reverse()
                         }
                         catch(e){
                           console.log("fp error",e)

@@ -4,6 +4,7 @@ const crypto = require("crypto")
 const broker = require("./brokers/app")
 const kite = require("./brokers/kite/app")
 const fp = require("./brokers/5paisa/app");
+const finvasia = require("./brokers/finvasia/app");
 const io = require("socket.io-client")
 const socket = io("wss://paisashare.in", {path: '/user-auth/socket.io/'});
 const persist = require("./storage/persist")
@@ -36,6 +37,13 @@ async function run (updateCallback) {
     try{
         await fp.init();
         console.log("5Paisa Login Complete")
+    }
+    catch(e){
+        console.log("Could not initialize 5Paisa",e)
+    }
+    try{
+        await finvasia.init();
+        console.log("Finvasia Login Complete")
     }
     catch(e){
         console.log("Could not initialize 5Paisa",e)
