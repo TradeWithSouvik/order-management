@@ -42,7 +42,6 @@ module.exports={
         const qty = await getQty(strategyId)
         let responses=[]
         const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
-        console.log([date,month,year].join(""))
         const expiryPrefix = [date,month,year].join("")
         for(const order of orders){
             responses.push(await api.place_order({
