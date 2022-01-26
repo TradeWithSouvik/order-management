@@ -16,10 +16,7 @@ const creds=process.env.FIVEPAISA_CREDS.split(",")
 
 const { FivePaisaClient } = require("5paisajs")
 
-var client = new FivePaisaClient(conf)
-
-
-
+var client
 let loginCred 
 let storedData
 
@@ -42,6 +39,7 @@ function formatDate(date) {
 
 async function init(){
     if(conf.userId&&conf.password){
+        client = new FivePaisaClient(conf)
         loginCred = await client.login(...creds)
         await client.init(loginCred)
         storedData = await persist.get()
