@@ -11,7 +11,7 @@ let authparams  = {
     'api_secret' :  process.env.FINVASIA_API_KEY,
     'imei'       : process.env.FINVASIA_IMEI
 }
-console.log(authparams)
+
 let api = new Api({});
 
 function receiveQuote(data) {
