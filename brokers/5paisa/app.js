@@ -14,7 +14,7 @@ const conf = {
 }
 const creds=process.env.FIVEPAISA_CREDS.split(",")
 
-const { FivePaisaClient } = require("5paisajs")
+const { FivePaisaClient } = require("./5paisajs/index.js")
 
 var client
 let loginCred 
