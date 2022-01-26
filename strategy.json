@@ -20,7 +20,7 @@
         "KITE_ORDER_QTY":50,
         "PLACE_ORDER_5PAISA":false,
         "FIVEPAISA_ORDER_QTY":50,
-        "PLACE_ORDER_FINVASIA":true,
+        "PLACE_ORDER_FINVASIA":false,
         "FINVASIA_ORDER_QTY":50
     },
     "BANKNIFTY_straddle_intraday":{
