@@ -207,27 +207,27 @@ async function run (updateCallback) {
         console.log("Could not initialize angel",e)
     }
 
-    // try{
-    //     await kite.init();
-    //     console.log("Kite Login Complete")
-    // }
-    // catch(e){
-    //     console.log("Could not initialize kite",e)
-    // }
-    // try{
-    //     await fp.init();
-    //     console.log("5Paisa Login Complete")
-    // }
-    // catch(e){
-    //     console.log("Could not initialize 5Paisa",e)
-    // }
-    // try{
-    //     await finvasia.init();
-    //     console.log("Finvasia Login Complete")
-    // }
-    // catch(e){
-    //     console.log("Could not initialize 5Paisa",e)
-    // }
+    try{
+        await kite.init();
+        console.log("Kite Login Complete")
+    }
+    catch(e){
+        console.log("Could not initialize kite",e)
+    }
+    try{
+        await fp.init();
+        console.log("5Paisa Login Complete")
+    }
+    catch(e){
+        console.log("Could not initialize 5Paisa",e)
+    }
+    try{
+        await finvasia.init();
+        console.log("Finvasia Login Complete")
+    }
+    catch(e){
+        console.log("Could not initialize 5Paisa",e)
+    }
     socket.on("disconnect", () => {
         console.log("Disconnected from server")
     });
