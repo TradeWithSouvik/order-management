@@ -14,7 +14,7 @@ const instruments={}
 
 module.exports={
     init:async()=>{
-        
+        if(process.env.ANGEL_API_KEY){
             smart_api = new SmartAPI({
                 api_key:process.env.ANGEL_API_KEY,    
             });
@@ -29,6 +29,10 @@ module.exports={
             storedData = await persist.get()
             storedData.angelLogin=true
             await persist.set(storedData)
+        }
+        else{
+            throw "Angel creds not present"
+        }
     },
     placeOrder:async(strategyId,orders,expiry)=>{
         const qty = await getQty(strategyId)

@@ -48,7 +48,7 @@ async function init(){
         await persist.set(storedData)
     }
     else {
-        throw "No creds"
+        throw "Fivepaisa creds not present"
     }
 }
 

@@ -28,17 +28,22 @@ function open(data) {
 
 module.exports={
     init:async()=>{
-        api  = new Api({});
-        await api.login(authparams)
-        params = {
-        'socket_open' : open,
-        'quote' : receiveQuote,   
-        'order' : receiveOrders       
+        if(process.env.FINVASIA_UID){
+            api  = new Api({});
+            await api.login(authparams)
+            params = {
+            'socket_open' : open,
+            'quote' : receiveQuote,   
+            'order' : receiveOrders       
+            }
+            api.start_websocket(params);
+            storedData = await persist.get()
+            storedData.fvLogin=true
+            await persist.set(storedData)
         }
-        api.start_websocket(params);
-        storedData = await persist.get()
-        storedData.fvLogin=true
-        await persist.set(storedData)
+        else{
+            throw "Finvaisa creds not present"
+        }
     },
     placeOrder:async(strategyId,orders,expiry)=>{
         const qty = await getQty(strategyId)
