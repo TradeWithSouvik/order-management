@@ -40,7 +40,7 @@
         "ANGEL":{
             "ORDER":false,
             "HEDGE":true,
-            "QTY":25
+            "QTY":50
         }
     },
     "NIFTY_ic_intraday":{
@@ -62,7 +62,7 @@
         "ANGEL":{
             "ORDER":false,
             "HEDGE":true,
-            "QTY":25
+            "QTY":50
         }
     },
     "BANKNIFTY_straddle_intraday":{
