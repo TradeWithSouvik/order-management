@@ -91,8 +91,8 @@
                                 <td>
 
                                     <span v-if="strategy.ORDER">
-                                        <span v-if="!strategy.isNotSynced&&strategy.resyncInTime>=30">Synced</span>
-                                        <span v-if="!strategy.isNotSynced&&strategy.resyncInTime>0&&strategy.resyncInTime<30">Sync in {{strategy.resyncInTime}}s</span>
+                                        <span v-if="!strategy.isNotSynced&&strategy.resyncInTime>=10">Synced</span>
+                                        <span v-if="!strategy.isNotSynced&&strategy.resyncInTime>0&&strategy.resyncInTime<10">Sync in {{strategy.resyncInTime}}s</span>
                                         <span v-if="strategy.isNotSynced">Syncing...</span>
                                         
                                     </span>
