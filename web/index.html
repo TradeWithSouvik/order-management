@@ -242,6 +242,42 @@
               </div>
             </div>
 
+
+            <div v-if="angelResponses.length>0">
+                <br/>
+                <br/>
+                <h2>Angel Orders</h2>
+                <br/>
+                <div class="table">
+                  <table>
+                      <thead>
+                          <tr>
+                              <th>Strategy</th>
+                              <th>OrderId</th>
+                              <th>Message</th>
+                              <th>Time</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr v-for="(order,index) of angelResponses" :key="index">
+                              <td>
+                                  {{order.strategyId}}
+                              </td>
+                              <td>
+                                  {{order.orderid}}
+                              </td>
+                                <td>
+                                    {{order.message}}
+                                </td>
+                              <td>
+                                  {{order.time}}
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+
             <br/>
             <br/>
             <br/>

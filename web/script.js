@@ -119,9 +119,15 @@ var app = new Vue({
                 try{
                   if(this.data.angelResponses){
                     this.data.angelResponses.forEach(el=>{
-                        el.angelResponses.forEach(order=>{
+
+                        el.responses.forEach(order=>{
+                            let error = order.errorcode
+                            let message = order.message
+                            order=order.data
+                            order.error=error
+                            order.message=message
                             order.time=el.timestamp
-                            order.angelResponses=el.strategyId
+                            order.strategyId=el.strategyId
                             this.angelResponses.push(order)
                         })
                     })
