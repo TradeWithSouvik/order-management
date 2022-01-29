@@ -7,6 +7,7 @@ var app = new Vue({
         kiteResponses:[],
         fpResponses:[],
         fvResponses:[],
+        angelResponses:[],
         strategies:[],
         loader:false,
         kiteKey:"",
@@ -108,6 +109,23 @@ var app = new Vue({
                         })
                     })
                     this.fvResponses=this.fvResponses.reverse()
+                  }
+                }
+                catch(e){
+                  console.log("fp error",e)
+                }
+
+                this.angelResponses=[]
+                try{
+                  if(this.data.angelResponses){
+                    this.data.angelResponses.forEach(el=>{
+                        el.angelResponses.forEach(order=>{
+                            order.time=el.timestamp
+                            order.angelResponses=el.strategyId
+                            this.angelResponses.push(order)
+                        })
+                    })
+                    this.angelResponses=this.angelResponses.reverse()
                   }
                 }
                 catch(e){

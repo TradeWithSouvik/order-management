@@ -14,6 +14,11 @@
             "ORDER":false,
             "HEDGE":true,
             "QTY":25
+        },
+        "ANGEL":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":25
         }
     },
     "nifty_straddle-z2P0eqvEFU-7Usa3AAAD":{
@@ -31,6 +36,11 @@
             "ORDER":false,
             "HEDGE":true,
             "QTY":50
+        },
+        "ANGEL":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":25
         }
     },
     "NIFTY_ic_intraday":{
@@ -48,6 +58,11 @@
             "ORDER":false,
             "HEDGE":true,
             "QTY":50
+        },
+        "ANGEL":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":25
         }
     },
     "BANKNIFTY_straddle_intraday":{
@@ -62,6 +77,11 @@
             "QTY":25
         },
         "FIVEPAISA":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":25
+        },
+        "ANGEL":{
             "ORDER":false,
             "HEDGE":true,
             "QTY":25

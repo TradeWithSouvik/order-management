@@ -2,6 +2,7 @@
 const kiteOrder = require("./kite/placeOrder")
 const fpOrder = require("./5paisa/placeOrder")
 const fvOrder = require("./finvasia/placeOrder")
+const angelOrder = require("./angel/placeOrder")
 const strategy = require("../storage/strategy")
 let strategyConfig
 
@@ -9,9 +10,41 @@ module.exports.order=order
 
 
 
-async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeInFp=true,tradeInFinvasia=true){
+async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeInFp=true,tradeInFinvasia=true,tradeInAngel=true){
     
     strategyConfig=await strategy.get()
+
+    if(strategyConfig[strategyId].ANGEL.ORDER&&tradeInAngel){
+        
+
+        setTimeout(async()=>{
+            try{
+                let hedgeStatus = strategyConfig[strategyId].ANGEL.HEDGE
+                let requestOrdersBuy=requestOrders.filter(leg=>leg.type==="BUY")
+                let requestOrdersSell=requestOrders.filter(leg=>leg.type==="SELL")
+                if(!hedgeStatus){
+                    requestOrdersBuy=requestOrdersBuy.filter(leg=>leg.isHedge!=true)
+                    requestOrdersSell=requestOrdersSell.filter(leg=>leg.isHedge!=true)
+                }
+                const requestDataBuy={
+                    orders:requestOrdersBuy,expiry
+                }
+                const requestDataSell={
+                    orders:requestOrdersSell,expiry
+                }
+                await angelOrder.order(strategyId,requestDataBuy)
+                await angelOrder.order(strategyId,requestDataSell)
+                
+            }
+            catch(e){
+                let err=e
+                bot.sendMessage(`Error in Placing Angel Order ${err.toString()}`)
+            }
+
+        },0)
+        
+        console.log("::TRIED TO PLACE A TRADE IN ANGEL::")
+    }
     if(strategyConfig[strategyId].FINVASIA.ORDER&&tradeInFinvasia){
         
 

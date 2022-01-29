@@ -27,6 +27,8 @@
             <p v-if="!data.fpLogin">5paisa not Logged in</p>
             <p v-if="data.fvLogin">Finvasia Logged in</p>
             <p v-if="!data.fvLogin">Finvasia not Logged in</p>
+            <p v-if="data.angelLogin">Angel Logged in</p>
+            <p v-if="!data.angelLogin">Angel not Logged in</p>
 
             <div v-if="strategies.length>0">
                 <br/>

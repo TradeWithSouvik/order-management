@@ -13,7 +13,7 @@ let authparams  = {
     'imei'       : process.env.FINVASIA_IMEI
 }
 
-let api = new Api({});
+let api
 
 function receiveQuote(data) {
     console.log("Quote ::", data);
@@ -28,6 +28,7 @@ function open(data) {
 
 module.exports={
     init:async()=>{
+        api  = new Api({});
         await api.login(authparams)
         params = {
         'socket_open' : open,

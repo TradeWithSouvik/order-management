@@ -44,12 +44,12 @@ async function init(){
     }
 
     if(_savedStategies&&JSON.stringify(_savedStategies)!==JSON.stringify({})){
-        for(const strategyId in Object.keys(strategies)){
+        for(const strategyId of Object.keys(strategies)){
             if(!_savedStategies[strategyId]){
                 _savedStategies[strategyId]=strategies[strategyId]
             }
             else{
-                for(const brokerName in Object.keys(strategies[strategyId])){
+                for(const brokerName of Object.keys(strategies[strategyId])){
                     if(!_savedStategies[strategyId][brokerName]){
                         _savedStategies[strategyId][brokerName]=strategies[strategyId][brokerName]
                     }

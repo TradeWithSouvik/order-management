@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 const crypto = require("crypto")
 const broker = require("./brokers/app")
 const kite = require("./brokers/kite/app")
+const angel = require("./brokers/angel/app")
 const fp = require("./brokers/5paisa/app");
 const finvasia = require("./brokers/finvasia/app");
 const io = require("socket.io-client")
@@ -92,7 +93,7 @@ module.exports={
                     storedData.errors=storedData.errors||[]
                     storedData.errors.push({timestamp:formatDateTime(new Date()),error,strategyId,expiry})
                     await persist.set(storedData)
-                }},expiry,(brokerName=="KITE"),(brokerName=="FIVEPAISA"),(brokerName=="FINVASIA"))
+                }},expiry,(brokerName=="KITE"),(brokerName=="FIVEPAISA"),(brokerName=="FINVASIA"),(brokerName=="ANGEL"))
             }
         }
         catch(e){
@@ -175,7 +176,7 @@ module.exports={
                     storedData.errors=storedData.errors||[]
                     storedData.errors.push({timestamp:formatDateTime(new Date()),error,strategyId,expiry})
                     await persist.set(storedData)
-                }},expiry,(brokerName=="KITE"),(brokerName=="FIVEPAISA"),(brokerName=="FINVASIA"))
+                }},expiry,(brokerName=="KITE"),(brokerName=="FIVEPAISA"),(brokerName=="FINVASIA"),(brokerName=="ANGEL"))
             }
         }
         catch(e){
@@ -197,27 +198,36 @@ async function waitAWhile(time){
 async function run (updateCallback) {
     console.log("Connected to Server")
 
+    
     try{
-        await kite.init();
-        console.log("Kite Login Complete")
+        await angel.init();
+        console.log("Angel Login Complete")
     }
     catch(e){
-        console.log("Could not initialize kite",e)
+        console.log("Could not initialize angel",e)
     }
-    try{
-        await fp.init();
-        console.log("5Paisa Login Complete")
-    }
-    catch(e){
-        console.log("Could not initialize 5Paisa",e)
-    }
-    try{
-        await finvasia.init();
-        console.log("Finvasia Login Complete")
-    }
-    catch(e){
-        console.log("Could not initialize 5Paisa",e)
-    }
+
+    // try{
+    //     await kite.init();
+    //     console.log("Kite Login Complete")
+    // }
+    // catch(e){
+    //     console.log("Could not initialize kite",e)
+    // }
+    // try{
+    //     await fp.init();
+    //     console.log("5Paisa Login Complete")
+    // }
+    // catch(e){
+    //     console.log("Could not initialize 5Paisa",e)
+    // }
+    // try{
+    //     await finvasia.init();
+    //     console.log("Finvasia Login Complete")
+    // }
+    // catch(e){
+    //     console.log("Could not initialize 5Paisa",e)
+    // }
     socket.on("disconnect", () => {
         console.log("Disconnected from server")
     });
