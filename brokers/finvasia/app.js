@@ -1,5 +1,6 @@
 const Api = require("./lib/RestApi");
-const strategyConfig = require("../../strategy.json")
+const strategy = require("../../storage/strategy")
+let strategyConfig
 
 const persist = require("../../storage/persist")
 let storedData
@@ -79,6 +80,7 @@ function addZero(val){
     return val<10&&!val.startsWith("0")?"0"+val:val
 }
 async function getQty(strategyId){
-    return strategyConfig[strategyId].FINVASIA_ORDER_QTY
+    strategyConfig=await strategy.get()
+    return strategyConfig[strategyId].FINVASIA.QTY
 }
 

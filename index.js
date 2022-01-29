@@ -11,6 +11,7 @@ require('dotenv').config()
 const orderClient=require("./orderClient")
 
 const persist = require("./storage/persist")
+const strategy = require("./storage/strategy")
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io");
@@ -47,18 +48,45 @@ ioServer.on('connection',async (socket) => {
     socket.on('disconnect', () => {
         delete sockets[socket.id]
     });
-    socket.emit("data",{data:await persist.get(),kiteKey:process.env.KITE_API_KEY})
+
+    socket.on('change', async(data) => {
+        const {type,strategyId,brokerName,value}=data
+        const strategies=await strategy.get()
+        strategies[strategyId][brokerName][type]=value
+        await strategy.set(strategies)
+        socket.emit("change",{})
+    });
+    socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
+
+    socket.on('enter', async(data) => {
+        const {strategyId,brokerName}=data
+        await orderClient.enter(strategyId,brokerName,()=>{
+            socket.emit("enter",{})
+
+        })
+    });
+
+    socket.on('exit', async(data) => {
+        const {strategyId,brokerName}=data
+        await orderClient.exit(strategyId,brokerName,()=>{
+            socket.emit("exit",{})
+
+        })
+    });
 });
 
 
 
 
-server.listen(process.env.PORT, () => {
-    orderClient.init(()=>{
+server.listen(process.env.PORT, async() => {
+
+    await strategy.init();
+    await orderClient.init(()=>{
         Object.values(sockets).forEach(async socket=>{
-            socket.emit("data",{data:await persist.get(),kiteKey:process.env.KITE_API_KEY})
+            socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         })
     })
+
     console.log('listening on *:'+process.env.PORT);
     console.log(`Click here to open link http://localhost:${process.env.PORT}`)
 });

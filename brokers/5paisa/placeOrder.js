@@ -1,5 +1,6 @@
 
-const strategyConfig = require("../../strategy.json")
+const strategy = require("../../storage/strategy")
+let strategyConfig
 const fp = require("./app")
 let isFailing=false;
 module.exports={
@@ -21,7 +22,8 @@ module.exports={
         }
     },
     getQty:async(strategyId)=>{
-            return strategyConfig[strategyId].FIVEPAISA_ORDER_QTY
+        strategyConfig=await strategy.get()
+        return strategyConfig[strategyId].FIVEPAISA.QTY
     }
 }
 

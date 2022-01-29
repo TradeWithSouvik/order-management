@@ -1,5 +1,7 @@
 
-const strategyConfig = require("../../strategy.json")
+
+const strategy = require("../../storage/strategy")
+let strategyConfig
 const fv = require("./app")
 let isFailing=false;
 module.exports={
@@ -10,7 +12,8 @@ module.exports={
         let responseArray=await fv.placeOrder(strategyId, request.orders,request.expiry)
     },
     getQty:async(strategyId)=>{
-            return strategyConfig[strategyId].FINVASIA_ORDER_QTY
+        strategyConfig=await strategy.get()
+        return strategyConfig[strategyId].FINVASIA.QTY
     }
 }
 

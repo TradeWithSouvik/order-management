@@ -1,4 +1,4 @@
 .env
-*.json
+storage/data/*.json
 .DS_store
 node_modules

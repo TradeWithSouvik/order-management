@@ -1,6 +1,7 @@
 // Configuration for your app
 require('dotenv').config()
-const strategyConfig = require("../../strategy.json")
+const strategy = require("../../storage/strategy")
+let strategyConfig
 
 const persist = require("../../storage/persist")
 
@@ -102,7 +103,8 @@ async function placeOrder(strategyId,orders,expiry){
 
 
 async function getQty(strategyId){
-        return strategyConfig[strategyId].FIVEPAISA_ORDER_QTY
+    strategyConfig=await strategy.get()
+    return strategyConfig[strategyId].FIVEPAISA.QTY
 }
 
 function formatDateTime(date) {

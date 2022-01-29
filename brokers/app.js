@@ -2,27 +2,34 @@
 const kiteOrder = require("./kite/placeOrder")
 const fpOrder = require("./5paisa/placeOrder")
 const fvOrder = require("./finvasia/placeOrder")
-const strategyConfig = require("../strategy.json")
+const strategy = require("../storage/strategy")
+let strategyConfig
 
 module.exports.order=order
 
 
 
 async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeInFp=true,tradeInFinvasia=true){
-    let requestOrdersBuy=requestOrders.filter(leg=>leg.type==="BUY")
-    let requestOrdersSell=requestOrders.filter(leg=>leg.type==="SELL")
-    const requestDataBuy={
-        orders:requestOrdersBuy,expiry
-    }
-    const requestDataSell={
-        orders:requestOrdersSell,expiry
-    }
     
-    if(strategyConfig[strategyId].PLACE_ORDER_FINVASIA&&tradeInFinvasia){
+    strategyConfig=await strategy.get()
+    if(strategyConfig[strategyId].FINVASIA.ORDER&&tradeInFinvasia){
         
 
         setTimeout(async()=>{
             try{
+                let hedgeStatus = strategyConfig[strategyId].FINVASIA.HEDGE
+                let requestOrdersBuy=requestOrders.filter(leg=>leg.type==="BUY")
+                let requestOrdersSell=requestOrders.filter(leg=>leg.type==="SELL")
+                if(!hedgeStatus){
+                    requestOrdersBuy=requestOrdersBuy.filter(leg=>leg.isHedge!=true)
+                    requestOrdersSell=requestOrdersSell.filter(leg=>leg.isHedge!=true)
+                }
+                const requestDataBuy={
+                    orders:requestOrdersBuy,expiry
+                }
+                const requestDataSell={
+                    orders:requestOrdersSell,expiry
+                }
                 await fvOrder.order(strategyId,requestDataBuy)
                 await fvOrder.order(strategyId,requestDataSell)
                 
@@ -36,12 +43,24 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
         
         console.log("::TRIED TO PLACE A TRADE IN FINVASIA::")
     }
-    
-    if(strategyConfig[strategyId].PLACE_ORDER_5PAISA&&tradeInFp){
+    if(strategyConfig[strategyId].FIVEPAISA.ORDER&&tradeInFp){
         
 
         setTimeout(async()=>{
             try{
+                let hedgeStatus = strategyConfig[strategyId].FIVEPAISA.HEDGE
+                let requestOrdersBuy=requestOrders.filter(leg=>leg.type==="BUY")
+                let requestOrdersSell=requestOrders.filter(leg=>leg.type==="SELL")
+                if(!hedgeStatus){
+                    requestOrdersBuy=requestOrdersBuy.filter(leg=>leg.isHedge!=true)
+                    requestOrdersSell=requestOrdersSell.filter(leg=>leg.isHedge!=true)
+                }
+                const requestDataBuy={
+                    orders:requestOrdersBuy,expiry
+                }
+                const requestDataSell={
+                    orders:requestOrdersSell,expiry
+                }
                 await fpOrder.order(strategyId,requestDataBuy)
                 await fpOrder.order(strategyId,requestDataSell)
                 
@@ -55,10 +74,23 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
         
         console.log("::TRIED TO PLACE A TRADE IN 5PAISA::")
     }
-    if(strategyConfig[strategyId].PLACE_ORDER_KITE&&tradeInKite){
+    if(strategyConfig[strategyId].KITE.ORDER&&tradeInKite){
 
         setTimeout(async()=>{
             try{
+                let hedgeStatus = strategyConfig[strategyId].KITE.HEDGE
+                let requestOrdersBuy=requestOrders.filter(leg=>leg.type==="BUY")
+                let requestOrdersSell=requestOrders.filter(leg=>leg.type==="SELL")
+                if(!hedgeStatus){
+                    requestOrdersBuy=requestOrdersBuy.filter(leg=>leg.isHedge!=true)
+                    requestOrdersSell=requestOrdersSell.filter(leg=>leg.isHedge!=true)
+                }
+                const requestDataBuy={
+                    orders:requestOrdersBuy,expiry
+                }
+                const requestDataSell={
+                    orders:requestOrdersSell,expiry
+                }
                 await kiteOrder.order(strategyId,[requestDataBuy,requestDataSell],bot)
             }
             catch(e){
@@ -68,8 +100,5 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
         },0)
         
         console.log("::TRIED TO PLACE A TRADE IN KITE::")
-    }
-    if(strategyConfig[strategyId].PLACE_ORDER_5PAISA||strategyConfig[strategyId].PLACE_ORDER_KITE){
-        // console.log("Requested for following orders",requestOrders)
     }
 }

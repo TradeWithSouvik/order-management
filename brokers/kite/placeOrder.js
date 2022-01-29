@@ -1,6 +1,7 @@
 
 const kite = require("./app.js")
-const strategyConfig = require("../../strategy.json")
+const strategy = require("../../storage/strategy")
+let strategyConfig
 const persist = require("../../storage/persist")
 let isFailing=false;
 let storedData
@@ -145,7 +146,8 @@ async function requestOrdersAsync(strategyId,request){
 }
 
 async function getQty(strategyId){
-            return strategyConfig[strategyId].KITE_ORDER_QTY
+    strategyConfig=await strategy.get()
+    return strategyConfig[strategyId].KITE.QTY
 }
 function formatDateTime(date) {
     const dateArray = date.toLocaleString().split(",")
