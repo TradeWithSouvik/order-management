@@ -5,7 +5,7 @@ const strategies = require("./strategies.json")
 
 function set(data){
     return new Promise((resolve,reject)=>{
-        fs.writeFile(`${__dirname}/data/strategies.json`, JSON.stringify(data), function (err) {
+        fs.writeFile(`${process.cwd()}/data/strategies.json`, JSON.stringify(data), function (err) {
             if (err) {
                 return reject(err)
             }
@@ -18,7 +18,7 @@ function set(data){
 function get(){
     return new Promise((resolve,reject)=>{
 
-        fs.readFile(`${__dirname}/data/strategies.json`, 'utf8', function(err, data){
+        fs.readFile(`${process.cwd()}/data/strategies.json`, 'utf8', function(err, data){
             
             if (err) {
                 return resolve({});
@@ -36,6 +36,12 @@ function get(){
 
 async function init(){
     let _savedStategies
+
+    var dir = `${process.cwd()}/data`;
+
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
     try{
         _savedStategies=await get()||strategies
     }

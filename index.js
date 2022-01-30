@@ -6,7 +6,7 @@ require('dotenv').config()
 
 
 
-
+const path = require("path")
 
 const orderClient=require("./orderClient")
 
@@ -35,11 +35,11 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 
 
-app.use(express.static(__dirname+"/web/"));
+app.use(express.static(getDir() +"/web/"));
 
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/web/index.html');
+    res.sendFile(getDir() + '/web/index.html');
 });
 
 let sockets ={}
@@ -111,10 +111,21 @@ server.listen(process.env.PORT||1300,"127.0.0.1", async() => {
 
 
 
-   
-
-  
-
-
+// Using a function to set default app path
+function getDir() {
+    if (process.pkg) {
+        return path.resolve(process.execPath + "/..");
+    } else {
+        return path.join(require.main ? require.main.path : process.cwd());
+    }
+}
+// Using a function to set default app path
+function getDir() {
+    if (process.pkg) {
+        return path.resolve(process.execPath + "/..");
+    } else {
+        return path.join(require.main ? require.main.path : process.cwd());
+    }
+}
 
     

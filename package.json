@@ -7,6 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
+  "pkg": {
+    "assets": [
+        "web/**/*"
+      ],
+      "output": "dist"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
