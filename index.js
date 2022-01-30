@@ -12,6 +12,7 @@ const orderClient=require("./orderClient")
 
 const persist = require("./storage/persist")
 const strategy = require("./storage/strategy")
+const creds = require("./storage/creds")
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io");
@@ -49,6 +50,22 @@ ioServer.on('connection',async (socket) => {
         delete sockets[socket.id]
     });
 
+    socket.on("creds",async()=>{
+        socket.emit("creds",await creds.get())
+    })
+
+    socket.on("set_creds",async(data)=>{
+        socket.emit("set_creds",await creds.set(data))
+    })
+
+    socket.on("login",async()=>{
+        socket.emit("login",await orderClient.login(()=>{
+            Object.values(sockets).forEach(async socket=>{
+                socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
+            })
+        }))
+    })
+
     socket.on('change', async(data) => {
         const {type,strategyId,brokerName,value}=data
         const strategies=await strategy.get()
@@ -78,8 +95,8 @@ ioServer.on('connection',async (socket) => {
 
 
 
-server.listen(process.env.PORT, async() => {
-
+server.listen(process.env.PORT||1300,"127.0.0.1", async() => {
+    await creds.init();
     await strategy.init();
     await orderClient.init(()=>{
         Object.values(sockets).forEach(async socket=>{
@@ -87,12 +104,9 @@ server.listen(process.env.PORT, async() => {
         })
     })
 
-    console.log('listening on *:'+process.env.PORT);
-    console.log(`Click here to open link http://localhost:${process.env.PORT}`)
+    console.log('listening on *:',process.env.PORT||1300);
+    console.log(`Click here to open link http://localhost:${process.env.PORT||1300}`)
 });
-
-
-
 
 
 

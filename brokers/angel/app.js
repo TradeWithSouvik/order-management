@@ -14,7 +14,7 @@ const instruments={}
 
 module.exports={
     init:async()=>{
-        if(process.env.ANGEL_API_KEY){
+        if(process.env.ANGEL_API_KEY&&process.env.ANGEL_API_KEY!="undefined"&&process.env.ANGEL_API_KEY!=""){
             smart_api = new SmartAPI({
                 api_key:process.env.ANGEL_API_KEY,    
             });

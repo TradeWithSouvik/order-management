@@ -637,3 +637,18 @@
     input{
       width:1em;
     }
+
+    .nav{
+      float: right;
+      margin-top: 2em;
+    }
+
+    a{
+      padding: 0.5em 1em;
+      border-radius: 0.5em;
+      text-decoration: none;
+    }
+
+    .creds_input{
+      min-width: 10em !important;
+    }

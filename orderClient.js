@@ -15,9 +15,8 @@ let strategyConfig
 let storedData={}
 module.exports={
     init:async (updateCallback)=>{ 
-        strategyConfig=await strategy.get()
-        socket.on("connect",()=>{
-            run(updateCallback)
+        socket.on("connect",async()=>{
+            await login(updateCallback)
         })
     },
     enter:async(strategyId,brokerName,updateCallback)=>{
@@ -185,7 +184,8 @@ module.exports={
         finally{
             updateCallback()
         }
-    }
+    },
+    login
 }
 
 async function waitAWhile(time){
@@ -195,9 +195,10 @@ async function waitAWhile(time){
     
 }
 
-async function run (updateCallback) {
+async function login (updateCallback) {
     console.log("Connected to Server")
-
+    socket.removeAllListeners();
+    strategyConfig=await strategy.get()
     
     try{
         await angel.init();

@@ -4,14 +4,6 @@ let strategyConfig
 
 const persist = require("../../storage/persist")
 let storedData
-let authparams  = {
-    'userid'   : process.env.FINVASIA_UID,
-    'password' : process.env.FINVASIA_PASSWORD,
-    'twoFA'    :  process.env.FINVASIA_DOB,
-    'vendor_code' : `${process.env.FINVASIA_UID}_U`,
-    'api_secret' :  process.env.FINVASIA_API_KEY,
-    'imei'       : process.env.FINVASIA_IMEI
-}
 
 let api
 
@@ -28,7 +20,16 @@ function open(data) {
 
 module.exports={
     init:async()=>{
-        if(process.env.FINVASIA_UID){
+        let authparams  = {
+            'userid'   : process.env.FINVASIA_UID,
+            'password' : process.env.FINVASIA_PASSWORD,
+            'twoFA'    :  process.env.FINVASIA_DOB,
+            'vendor_code' : `${process.env.FINVASIA_UID}_U`,
+            'api_secret' :  process.env.FINVASIA_API_KEY,
+            'imei'       : process.env.FINVASIA_IMEI
+        }
+        
+        if(process.env.FINVASIA_UID&&process.env.FINVASIA_UID!="undefined"&&process.env.FINVASIA_UID!=""){
             api  = new Api({});
             await api.login(authparams)
             params = {

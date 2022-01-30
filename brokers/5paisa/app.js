@@ -5,15 +5,6 @@ let strategyConfig
 
 const persist = require("../../storage/persist")
 
-const conf = {
-    "appSource": process.env.FIVEPAISA_APPSOURCE,
-    "appName": process.env.FIVEPAISA_APPNAME,
-    "userId": process.env.FIVEPAISA_USERID,
-    "password": process.env.FIVEPAISA_PASSWORD,
-    "userKey": process.env.FIVEPAISA_USERKEY,
-    "encryptionKey": process.env.FIVEPAISA_ENCRYPTIONKEY
-}
-const creds=process.env.FIVEPAISA_CREDS.split(",")
 
 const { FivePaisaClient } = require("./5paisajs/index.js")
 
@@ -39,7 +30,17 @@ function formatDate(date) {
 
 
 async function init(){
-    if(conf.userId&&conf.password){
+    const conf = {
+        "appSource": process.env.FIVEPAISA_APPSOURCE,
+        "appName": process.env.FIVEPAISA_APPNAME,
+        "userId": process.env.FIVEPAISA_USERID,
+        "password": process.env.FIVEPAISA_PASSWORD,
+        "userKey": process.env.FIVEPAISA_USERKEY,
+        "encryptionKey": process.env.FIVEPAISA_ENCRYPTIONKEY
+    }
+    const creds=process.env.FIVEPAISA_CREDS.split(",")
+    
+    if(conf.userId&&conf.password&&conf.userId!="undefined"&&conf.userId!=""){
         client = new FivePaisaClient(conf)
         loginCred = await client.login(...creds)
         await client.init(loginCred)
