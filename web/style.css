@@ -617,16 +617,19 @@
     .on{
         background-color: #34C697;
         color:#fff;
+        border: none;
     }
 
     .enter{
         background-color: #34C697;
         color:#fff;
+        border: none;
     }
     .exit{
 
       background-color: #ff7779;
       color:#fff;
+      border: none;
     }
 
     :disabled{
@@ -650,5 +653,5 @@
     }
 
     .creds_input{
-      min-width: 10em !important;
+      min-width: 70vw !important;
     }
