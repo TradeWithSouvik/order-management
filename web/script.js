@@ -40,7 +40,7 @@ var app = new Vue({
                           this.isSynced(id)
                       })
                     })
-                    // this.strategies.sort((a,b)=>-a.ORDER+b.ORDER)
+                    this.strategies.sort((a,b)=>-a.ORDER+b.ORDER)
                   
                   }
                 }
