@@ -655,3 +655,24 @@
     .creds_input{
       min-width: 70vw !important;
     }
+
+    .connected{
+      font-size: inherit;
+      /* padding: 0.1em; */
+      background-color: #17a115;
+      width: fit-content;
+      padding: 0.5em;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+    }
+    .disconnected{
+      font-size: inherit;
+      /* padding: 0.1em; */
+      background-color: #df2626;
+      width: fit-content;
+      padding: 0.5em;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+    }

@@ -21,8 +21,8 @@
             </div> 
             <h1>Trade Terminal</h1>
             <br/>
-            <p v-if="data.live">Connected to server</p> 
-            <p v-if="!data.live">Disconnected from server</p> 
+            <p class="connected" v-if="data.live">Connected to server</p> 
+            <p class="disconnected" v-if="!data.live">Disconnected from server</p> 
             <br/>
             <br/>
             <h2>Brokers</h2>
