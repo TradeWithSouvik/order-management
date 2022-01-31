@@ -175,12 +175,13 @@ var app = new Vue({
           if(this.data.position&&this.data.position[strategyId]){
             let  validTillInMs = new Date(this.data.position[strategyId].timestamp)
             validTillInMs.setSeconds(0)
-            validTillInMs = new Date((validTillInMs.getTime()+60*1000+10000)).getTime()
+            validTillInMs = new Date((validTillInMs.getTime()+60*1000)).getTime()
             if(this.data.position[strategyId]){
-              if((validTillInMs-new Date().getTime())>500){
+              console.log((validTillInMs-new Date().getTime()),strategyId)
+              if((validTillInMs-new Date().getTime())>0){
                 this.strategies=this.strategies.map((_)=>{
                   if(_.strategyId==strategyId){ 
-                    _.resyncInTime=Math.round((validTillInMs+500-new Date().getTime())/1000)
+                    _.resyncInTime=Math.round((validTillInMs-new Date().getTime())/1000)
                     _.isNotSynced=false
                   }
                   return _
