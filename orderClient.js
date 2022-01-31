@@ -64,7 +64,7 @@ module.exports={
                     kiteExpiryPrefix:position.kiteExpiryPrefix
                 }]
             }
-            else if(position.context){
+            else if(position.context.strikeAtm){
                 requestOrders=[{
                     type:"SELL",
                     optionType:"CE",
