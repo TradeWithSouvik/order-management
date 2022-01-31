@@ -2,3 +2,4 @@
 storage/data/*.json
 .DS_store
 node_modules
+strategy.js

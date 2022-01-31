@@ -175,7 +175,7 @@ var app = new Vue({
           if(this.data.position&&this.data.position[strategyId]){
             let  validTillInMs = new Date(this.data.position[strategyId].timestamp)
             validTillInMs.setSeconds(0)
-            validTillInMs = new Date((validTillInMs.getTime()+60*1000)).getTime()
+            validTillInMs = new Date((validTillInMs.getTime()+60*1000+10000)).getTime()
             if(this.data.position[strategyId]){
               if((validTillInMs-new Date().getTime())>500){
                 this.strategies=this.strategies.map((_)=>{
