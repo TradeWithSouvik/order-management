@@ -317,20 +317,9 @@ async function login (updateCallback) {
             strategyConfig=await strategy.get()
             if(strategyConfig[strategyId]){
                 storedData = await persist.get()
-                if(storedData.position){
-                 console.log(strategyId,"POSITION NOW",Object.keys(storedData.position))
-                }
-                else{
-                    console.log("POSITION::")
-                }
                 storedData.position=storedData.position||{}
-                console.log(strategyId,"POSITION LATER",Object.keys(storedData.position))
                 storedData.position[strategyId]={position,timestamp:(new Date()).getTime(),expiry}
                 await persist.set(storedData)
-            }
-            else{
-
-                console.log(strategyId,"NO POSITION")
             }
         }
         catch(e){
