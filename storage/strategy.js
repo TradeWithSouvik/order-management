@@ -1,10 +1,12 @@
 const fs = require("fs")
 const strategies = require("./strategies.json")
 
-
+let storedData
 
 function set(data){
     return new Promise((resolve,reject)=>{
+        storedData=data
+        resolve(storedData)
         fs.writeFile(`${process.cwd()}/data/strategies.json`, JSON.stringify(data), function (err) {
             if (err) {
                 return reject(err)
@@ -17,19 +19,23 @@ function set(data){
 
 function get(){
     return new Promise((resolve,reject)=>{
-
-        fs.readFile(`${process.cwd()}/data/strategies.json`, 'utf8', function(err, data){
-            
-            if (err) {
-                return resolve({});
-            }
-            try{
-                return resolve(JSON.parse(data));
-            }
-            catch(e){
-                return resolve({});
-            }
-        });
+        if(storedData){
+            return resolve(storedData)
+        }
+        else{
+            fs.readFile(`${process.cwd()}/data/strategies.json`, 'utf8', function(err, data){
+                
+                if (err) {
+                    return resolve({});
+                }
+                try{
+                    return resolve(JSON.parse(data));
+                }
+                catch(e){
+                    return resolve({});
+                }
+            });
+        }
     });
 }
 

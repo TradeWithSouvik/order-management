@@ -1,5 +1,7 @@
 .env
 storage/data/*.json
+data/*.json
+data
 .DS_store
 node_modules
 strategy.js

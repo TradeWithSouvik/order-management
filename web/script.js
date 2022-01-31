@@ -177,7 +177,6 @@ var app = new Vue({
             validTillInMs.setSeconds(0)
             validTillInMs = new Date((validTillInMs.getTime()+60*1000)).getTime()
             if(this.data.position[strategyId]){
-              console.log((validTillInMs-new Date().getTime()),strategyId)
               if((validTillInMs-new Date().getTime())>0){
                 this.strategies=this.strategies.map((_)=>{
                   if(_.strategyId==strategyId){ 
@@ -188,6 +187,10 @@ var app = new Vue({
                 })
                 return
               }
+            }
+            else{
+
+              console.log(strategyId)
             }
             this.strategies=this.strategies.map((_)=>{
               if(_.strategyId==strategyId){

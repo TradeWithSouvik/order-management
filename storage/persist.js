@@ -1,5 +1,7 @@
 const fs = require("fs")
 
+let storedData
+
 function formatDate(date) {
     const dateArray = date.toLocaleString().split(",")
     const [month, day, year]=dateArray[0].trim().split("/")
@@ -10,6 +12,8 @@ function addZero(val){
 }
 module.exports.set=(data)=>{
     return new Promise((resolve,reject)=>{
+        storedData=data
+        resolve(storedData)
         var dir = `${process.cwd()}/data`;
 
         if (!fs.existsSync(dir)){
@@ -18,9 +22,8 @@ module.exports.set=(data)=>{
 
         fs.writeFile(`${process.cwd()}/data/${formatDate(new Date())}.json`, JSON.stringify(data), function (err) {
             if (err) {
-                return reject(err)
+                console.log(err)
             }
-            return resolve()
         });
     })
     
@@ -28,22 +31,27 @@ module.exports.set=(data)=>{
 
 module.exports.get=()=>{
     return new Promise((resolve,reject)=>{
-        var dir = `${process.cwd()}/data`;
-
-        if (!fs.existsSync(dir)){
-            fs.mkdirSync(dir);
+        if(storedData){
+            return resolve(storedData)
         }
-        fs.readFile(`${process.cwd()}/data/${formatDate(new Date())}.json`, 'utf8', function(err, data){
-            
-            if (err) {
-                return resolve({});
+        else{
+            var dir = `${process.cwd()}/data`;
+
+            if (!fs.existsSync(dir)){
+                fs.mkdirSync(dir);
             }
-            try{
-                return resolve(JSON.parse(data));
-            }
-            catch(e){
-                return resolve({});
-            }
-        });
+            fs.readFile(`${process.cwd()}/data/${formatDate(new Date())}.json`, 'utf8', function(err, data){
+                
+                if (err) {
+                    return resolve({});
+                }
+                try{
+                    return resolve(JSON.parse(data));
+                }
+                catch(e){
+                    return resolve({});
+                }
+            });
+        }
     });
 }

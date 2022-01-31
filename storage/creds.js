@@ -35,23 +35,25 @@ let creds= {FIVEPAISA_CREDS,
     ANGEL_CLIENT_CODE,
     ANGEL_PASSWORD,
     MY_TELEGRAM_ID} 
-
+let storedData
 
 
 function set(data){
     return new Promise((resolve,reject)=>{
+        storedData=data
+
+        for(const key of Object.keys(data)){
+            if(data[key]==undefined){
+                delete data[key]
+            }
+            process.env[key]=data[key]
+        }
+        resolve(storedData)
         fs.writeFile(`${process.cwd()}/data/creds.json`, JSON.stringify(data), function (err) {
             if (err) {
-                return reject(err)
-            }
-            for(const key of Object.keys(data)){
-                if(data[key]==undefined){
-                    delete data[key]
-                }
-                process.env[key]=data[key]
+                console.log(err)
             }
                       
-            return resolve()
         });
     })
     
@@ -59,19 +61,23 @@ function set(data){
 
 function get(){
     return new Promise((resolve,reject)=>{
-
-        fs.readFile(`${process.cwd()}/data/creds.json`, 'utf8', function(err, data){
-            
-            if (err) {
-                return resolve({});
-            }
-            try{
-                return resolve(JSON.parse(data));
-            }
-            catch(e){
-                return resolve({});
-            }
-        });
+        if(storedData){
+            return resolve(storedData)
+        }
+        else{
+            fs.readFile(`${process.cwd()}/data/creds.json`, 'utf8', function(err, data){
+                
+                if (err) {
+                    return resolve({});
+                }
+                try{
+                    return resolve(JSON.parse(data));
+                }
+                catch(e){
+                    return resolve({});
+                }
+            });
+        }
     });
 }
 
