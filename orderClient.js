@@ -37,9 +37,6 @@ module.exports={
                     updateCallback()
                 })
             }
-            else{
-                console.log("Check connection",socket.connected,socket.connecting)
-            }
         }, 2000)
     },
     enter:async(strategyId,brokerName,updateCallback)=>{
