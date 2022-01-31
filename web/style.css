@@ -170,7 +170,7 @@
   
   tbody {
       display: block;
-      max-height: 330px;
+      max-height: 500px;
       overflow: scroll;
   }
   thead, tbody tr {

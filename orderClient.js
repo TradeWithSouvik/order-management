@@ -15,9 +15,32 @@ let strategyConfig
 let storedData={}
 module.exports={
     init:async (updateCallback)=>{ 
+
         socket.on("connect",async()=>{
-            await login(updateCallback)
+                
+                strategyConfig=await strategy.get()
+                storedData.live=true
+                await persist.set(storedData)
+                await login(updateCallback)
+                updateCallback()
         })
+        setInterval(function(){
+
+            if (!socket.connected && !socket.connecting) {
+                console.log("trying to reconnect...")
+                socket.connect()
+                socket.on("connect",async()=>{
+                    console.log("Connection re-established.")
+                    strategyConfig=await strategy.get()
+                    storedData.live=true
+                    await persist.set(storedData)
+                    updateCallback()
+                })
+            }
+            else{
+                console.log("Check connection",socket.connected,socket.connecting)
+            }
+        }, 2000)
     },
     enter:async(strategyId,brokerName,updateCallback)=>{
         try{
@@ -195,11 +218,12 @@ async function waitAWhile(time){
     
 }
 
+
+
 async function login (updateCallback) {
     console.log("Connected to Server")
     socket.removeAllListeners();
-    strategyConfig=await strategy.get()
-    
+    updateCallback()
     try{
         await angel.init();
         console.log("Angel Login Complete")
@@ -229,8 +253,12 @@ async function login (updateCallback) {
     catch(e){
         console.log("Could not initialize 5Paisa",e)
     }
-    socket.on("disconnect", () => {
-        console.log("Disconnected from server")
+    socket.on("disconnect", async() => {
+        console.log("Disconnected from server. Trying to reconnect")
+        storedData = await persist.get()
+        storedData.live=false
+        await persist.set(storedData)
+        updateCallback()
     });
 
     socket.on("kite-login",async request=>{
