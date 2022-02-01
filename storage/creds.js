@@ -38,6 +38,9 @@ let creds= {FIVEPAISA_CREDS,
 let storedData
 
 
+console.log(creds,"Env variables")
+
+
 function set(data){
     return new Promise((resolve,reject)=>{
         storedData=data

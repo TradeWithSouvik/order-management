@@ -149,7 +149,6 @@ server.listen(process.env.PORT||1300, async() => {
     storedData = await persist.get()
     storedData.url=url
     await persist.set(storedData)
-    console.log(process.env,"ENVIROMENT VARIABLES")
     console.log('listening on *:',process.env.PORT||1300);
     console.log(`Click here to open link ${url}`)
     console.log("PASSWORD is",storedData.password)
