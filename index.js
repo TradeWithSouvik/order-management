@@ -44,7 +44,6 @@ app.get('/', (req, res) =>res.sendFile(getDir() + '/web/index.html'));
 let sockets ={}
 
 ioServer.on('connection',async (socket) => {
-    sockets[socket.id]=socket
     socket.on('disconnect', () => {
         delete sockets[socket.id]
     });
@@ -120,6 +119,7 @@ ioServer.on('connection',async (socket) => {
             delete process.env.MY_TELEGRAM_ID
         }
         if(storedData.password==password){
+            sockets[socket.id]=socket
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         }
         else if(process.env.MY_TELEGRAM_ID){
