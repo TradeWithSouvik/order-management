@@ -114,18 +114,17 @@ ioServer.on('connection',async (socket) => {
         }
     });
     socket.on('data', async(request) => {
-        let {password,id}=request
+        let {password}=request
         storedData = await persist.get()
         if(process.env.MY_TELEGRAM_ID=='undefined'){
             delete process.env.MY_TELEGRAM_ID
         }
-        id=process.env.MY_TELEGRAM_ID||id
         if(storedData.password==password){
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         }
-        else if(id){
+        else if(process.env.MY_TELEGRAM_ID){
             console.log("SENDING PASSWORD")
-            await orderClient.sendId(id)
+            await orderClient.sendId(process.env.MY_TELEGRAM_ID)
         }
     })
 
@@ -150,7 +149,6 @@ server.listen(process.env.PORT||1300, async() => {
     storedData = await persist.get()
     storedData.url=url
     await persist.set(storedData)
-    console.log("Default Directory",getDir())
     console.log('listening on *:',process.env.PORT||1300);
     console.log(`Click here to open link ${url}`)
     console.log("PASSWORD is",storedData.password)
