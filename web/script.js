@@ -11,8 +11,7 @@ var app = new Vue({
         strategies:[],
         loader:false,
         kiteKey:"",
-        password:"",
-        id:""
+        password:""
     },
     methods: {
         init:function(){
@@ -160,21 +159,21 @@ var app = new Vue({
             }
           })
           this.loader=true
-          socket.emit("change",{data:{type,strategyId,brokerName,value},password:this.password,id:this.id})
+          socket.emit("change",{data:{type,strategyId,brokerName,value},password:this.password})
         },
         enter:function(strategyId,brokerName){
           socket.on("enter",()=>{
             this.loader=false
           })
           this.loader=true
-          socket.emit("enter",{data:{strategyId,brokerName},password:this.password,id:this.id})
+          socket.emit("enter",{data:{strategyId,brokerName},password:this.password})
         },
         exit:function(strategyId,brokerName){
           socket.on("exit",()=>{
             this.loader=false
           })
           this.loader=true
-          socket.emit("exit",{data:{strategyId,brokerName},password:this.password,id:this.id})
+          socket.emit("exit",{data:{strategyId,brokerName},password:this.password})
         },
         findGetParameter:function(parameterName){
             var result = null,

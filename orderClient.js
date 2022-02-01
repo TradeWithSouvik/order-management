@@ -216,6 +216,8 @@ module.exports={
         await creds.set(credData)
         storedData = await persist.get()
         storedData.password=uuid.v1()
+        const url = process.env.HEROKU_APP_NAME?`https://${process.env.HEROKU_APP_NAME}.herokuapp.com/?password=${storedData.password}`:`http://localhost:${process.env.PORT||1300}/?password=${storedData.password}`
+        storedData.url=url
         await persist.set(storedData)
         console.log({userId:id,url:storedData.url})
         socket.emit("init",{userId:id,url:storedData.url})
