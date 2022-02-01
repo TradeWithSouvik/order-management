@@ -124,7 +124,7 @@ ioServer.on('connection',async (socket) => {
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         }
         else if(id){
-            console.log("SENDING PASSWORD")
+            console.log("SENDING PASSWORD RAVI")
             await orderClient.sendId(id)
         }
     })
