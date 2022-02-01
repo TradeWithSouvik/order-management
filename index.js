@@ -116,6 +116,9 @@ ioServer.on('connection',async (socket) => {
     socket.on('data', async(request) => {
         let {password,id}=request
         storedData = await persist.get()
+        if(process.env.MY_TELEGRAM_ID=='undefined'){
+            process.env.MY_TELEGRAM_ID=undefined
+        }
         id=process.env.MY_TELEGRAM_ID||id
         if(storedData.password==password){
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
