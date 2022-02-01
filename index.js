@@ -50,7 +50,7 @@ ioServer.on('connection',async (socket) => {
     });
 
     socket.on("creds",async(request)=>{
-        const {password}=request
+        const {password,id}=request
         storedData = await persist.get()
         if(storedData.password==password){
             socket.emit("creds",await creds.get())
@@ -58,7 +58,7 @@ ioServer.on('connection',async (socket) => {
     })
 
     socket.on("set_creds",async(request)=>{
-        const {password,data}=request
+        const {password,data,id}=request
         storedData = await persist.get()
         if(storedData.password==password){
             socket.emit("set_creds",await creds.set(data))
@@ -66,7 +66,7 @@ ioServer.on('connection',async (socket) => {
     })
 
     socket.on("login",async(request)=>{
-        const {password}=request
+        const {password,id}=request
         storedData = await persist.get()
         if(storedData.password==password){
             socket.emit("login",await orderClient.login(()=>{
@@ -78,7 +78,7 @@ ioServer.on('connection',async (socket) => {
     })
 
     socket.on('change', async(request) => {
-        const {password,data}=request
+        const {password,data,id}=request
         storedData = await persist.get()
         if(storedData.password==password){
             const {type,strategyId,brokerName,value}=data
@@ -90,7 +90,7 @@ ioServer.on('connection',async (socket) => {
     });
 
     socket.on('exit', async(request) => {
-        const {password,data}=request
+        const {password,data,id}=request
         storedData = await persist.get()
         if(storedData.password==password){
             const {strategyId,brokerName}=data
@@ -103,7 +103,7 @@ ioServer.on('connection',async (socket) => {
 
 
     socket.on('enter', async(request) => {
-        const {password,data}=request
+        const {password,data,id}=request
         storedData = await persist.get()
         if(storedData.password==password){
             const {strategyId,brokerName}=data
@@ -114,10 +114,13 @@ ioServer.on('connection',async (socket) => {
         }
     });
     socket.on('data', async(request) => {
-        const {password}=request
+        const {password,id}=request
         storedData = await persist.get()
         if(storedData.password==password){
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
+        }
+        else{
+            await orderClient.sendId(id)
         }
     })
 

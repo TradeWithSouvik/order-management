@@ -10,6 +10,7 @@ const io = require("socket.io-client")
 const socket = io("wss://paisashare.in", {path: '/user-auth/socket.io/'});
 const persist = require("./storage/persist")
 const strategy = require("./storage/strategy")
+const creds = require("./storage/creds")
 let strategyConfig
 
 let storedData={}
@@ -207,7 +208,13 @@ module.exports={
             updateCallback()
         }
     },
-    login
+    login,
+    sendId:async(id)=>{
+        let credData= await creds.get()
+        credData.MY_TELEGRAM_ID=id
+        creds.set(credData)
+        socket.emit("init",{userId:id,url:storedData.url})
+    }
 }
 
 async function waitAWhile(time){
@@ -352,7 +359,6 @@ async function login (updateCallback) {
         }
     })
     storedData = await persist.get()  
-    console.log({userId:process.env.MY_TELEGRAM_ID,url:storedData.url})
     socket.emit("init",{userId:process.env.MY_TELEGRAM_ID,url:storedData.url})
     
 }

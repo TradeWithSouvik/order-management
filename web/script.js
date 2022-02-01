@@ -11,11 +11,13 @@ var app = new Vue({
         strategies:[],
         loader:false,
         kiteKey:"",
-        password:""
+        password:"",
+        id:""
     },
     methods: {
         init:function(){
             this.password=this.findGetParameter("password")
+            this.id= this.findGetParameter("id")
             setInterval(()=>{
               if(this.data&&this.data.position){
                 for(const strategyId of Object.keys(this.data.position)){
@@ -141,7 +143,7 @@ var app = new Vue({
                 }
 
             })
-            socket.emit("data",{password:this.password})
+            socket.emit("data",{password:this.password,id:this.id})
             
            
         },
@@ -158,21 +160,21 @@ var app = new Vue({
             }
           })
           this.loader=true
-          socket.emit("change",{data:{type,strategyId,brokerName,value},password:this.password})
+          socket.emit("change",{data:{type,strategyId,brokerName,value},password:this.password,id:this.id})
         },
         enter:function(strategyId,brokerName){
           socket.on("enter",()=>{
             this.loader=false
           })
           this.loader=true
-          socket.emit("enter",{data:{strategyId,brokerName},password:this.password})
+          socket.emit("enter",{data:{strategyId,brokerName},password:this.password,id:this.id})
         },
         exit:function(strategyId,brokerName){
           socket.on("exit",()=>{
             this.loader=false
           })
           this.loader=true
-          socket.emit("exit",{data:{strategyId,brokerName},password:this.password})
+          socket.emit("exit",{data:{strategyId,brokerName},password:this.password,id:this.id})
         },
         findGetParameter:function(parameterName){
             var result = null,
