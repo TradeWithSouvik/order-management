@@ -5,6 +5,7 @@ require('dotenv').config()
 
 
 
+const uuid = require('uuid');
 
 const path = require("path")
 
@@ -29,7 +30,7 @@ const urlencodedParser = express.urlencoded({
     type: "application/x-www-form-urlencoded"
 });
 
-
+let storedData
 app.use(jsonParser);
 
 app.use(urlencodedParser);
@@ -38,9 +39,7 @@ app.use(urlencodedParser);
 app.use(express.static(getDir() +"/web/"));
 
 
-app.get('/', (req, res) => {
-    res.sendFile(getDir() + '/web/index.html');
-});
+app.get('/', (req, res) =>res.sendFile(getDir() + '/web/index.html'));
 
 let sockets ={}
 
@@ -50,46 +49,79 @@ ioServer.on('connection',async (socket) => {
         delete sockets[socket.id]
     });
 
-    socket.on("creds",async()=>{
-        socket.emit("creds",await creds.get())
+    socket.on("creds",async(request)=>{
+        const {password}=request
+        storedData = await persist.get()
+        if(storedData.password==password){
+            socket.emit("creds",await creds.get())
+        }
     })
 
-    socket.on("set_creds",async(data)=>{
-        socket.emit("set_creds",await creds.set(data))
+    socket.on("set_creds",async(request)=>{
+        const {password,data}=request
+        storedData = await persist.get()
+        if(storedData.password==password){
+            socket.emit("set_creds",await creds.set(data))
+        }
     })
 
-    socket.on("login",async()=>{
-        socket.emit("login",await orderClient.login(()=>{
-            Object.values(sockets).forEach(async socket=>{
-                socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
+    socket.on("login",async(request)=>{
+        const {password}=request
+        storedData = await persist.get()
+        if(storedData.password==password){
+            socket.emit("login",await orderClient.login(()=>{
+                Object.values(sockets).forEach(async socket=>{
+                    socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
+                })
+            }))
+        }
+    })
+
+    socket.on('change', async(request) => {
+        const {password,data}=request
+        storedData = await persist.get()
+        if(storedData.password==password){
+            const {type,strategyId,brokerName,value}=data
+            const strategies=await strategy.get()
+            strategies[strategyId][brokerName][type]=value
+            await strategy.set(strategies)
+            socket.emit("change",{})
+        }
+    });
+
+    socket.on('exit', async(request) => {
+        const {password,data}=request
+        storedData = await persist.get()
+        if(storedData.password==password){
+            const {strategyId,brokerName}=data
+            await orderClient.exit(strategyId,brokerName,()=>{
+                socket.emit("exit",{})
+
             })
-        }))
+        }
+    });
+
+
+    socket.on('enter', async(request) => {
+        const {password,data}=request
+        storedData = await persist.get()
+        if(storedData.password==password){
+            const {strategyId,brokerName}=data
+            await orderClient.enter(strategyId,brokerName,()=>{
+                socket.emit("enter",{})
+
+            })
+        }
+    });
+    socket.on('data', async(request) => {
+        const {password}=request
+        storedData = await persist.get()
+        if(storedData.password==password){
+            socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
+        }
     })
 
-    socket.on('change', async(data) => {
-        const {type,strategyId,brokerName,value}=data
-        const strategies=await strategy.get()
-        strategies[strategyId][brokerName][type]=value
-        await strategy.set(strategies)
-        socket.emit("change",{})
-    });
-    socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
 
-    socket.on('enter', async(data) => {
-        const {strategyId,brokerName}=data
-        await orderClient.enter(strategyId,brokerName,()=>{
-            socket.emit("enter",{})
-
-        })
-    });
-
-    socket.on('exit', async(data) => {
-        const {strategyId,brokerName}=data
-        await orderClient.exit(strategyId,brokerName,()=>{
-            socket.emit("exit",{})
-
-        })
-    });
 });
 
 
@@ -98,14 +130,20 @@ ioServer.on('connection',async (socket) => {
 server.listen(process.env.PORT||1300, async() => {
     await creds.init();
     await strategy.init();
+    storedData = await persist.get()
+    storedData.password=uuid.v1()
+    await persist.set(storedData)
     await orderClient.init(()=>{
         Object.values(sockets).forEach(async socket=>{
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         })
     })
+    const url = process.env.HEROKU_APP_NAME?`https://${process.env.HEROKU_APP_NAME}.herokuapp.com/?password=${storedData.password}`:`http://localhost:${process.env.PORT||1300}/?password=${storedData.password}`
+    console.log(process.env.HEROKU_APP_NAME)
     console.log("Default Directory",getDir())
     console.log('listening on *:',process.env.PORT||1300);
-    console.log(`Click here to open link http://localhost:${process.env.PORT||1300}`)
+    console.log(`Click here to open link ${url}`)
+    console.log("PASSWORD is",storedData.password)
 });
 
 

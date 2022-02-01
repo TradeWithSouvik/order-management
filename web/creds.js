@@ -4,14 +4,16 @@ var app = new Vue({
     data: {
         creds:{},
         loader:true,
+        password:""
     },
     methods: {
         init:function(){
+            this.password=this.findGetParameter("password")
             socket.on("creds",(data)=>{
                 this.loader=false
                 this.creds=data
             })
-            socket.emit("creds",{})
+            socket.emit("creds",{password:this.password})
             this.loader=true
            
         },
@@ -19,7 +21,7 @@ var app = new Vue({
             socket.on("login",()=>{
                 this.loader=false
             })
-            socket.emit("login",{})
+            socket.emit("login",{password:this.password})
             this.loader=true
           
         },
@@ -27,9 +29,21 @@ var app = new Vue({
             socket.on("set_creds",()=>{
                 this.loader=false
             })
-            socket.emit("set_creds",this.creds)
+            socket.emit("set_creds",{data:this.creds,password:this.password})
             this.loader=true
           
+        },
+        findGetParameter:function(parameterName){
+            var result = null,
+                tmp = [];
+            location.search
+                .substr(1)
+                .split("&")
+                .forEach(function (item) {
+                  tmp = item.split("=");
+                  if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+                });
+            return result;
         }
     },
     watch:{

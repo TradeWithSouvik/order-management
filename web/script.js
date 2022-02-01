@@ -11,9 +11,11 @@ var app = new Vue({
         strategies:[],
         loader:false,
         kiteKey:"",
+        password:""
     },
     methods: {
         init:function(){
+            this.password=this.findGetParameter("password")
             setInterval(()=>{
               if(this.data&&this.data.position){
                 for(const strategyId of Object.keys(this.data.position)){
@@ -139,6 +141,7 @@ var app = new Vue({
                 }
 
             })
+            socket.emit("data",{password:this.password})
             
            
         },
@@ -155,21 +158,33 @@ var app = new Vue({
             }
           })
           this.loader=true
-          socket.emit("change",{type,strategyId,brokerName,value})
+          socket.emit("change",{data:{type,strategyId,brokerName,value},password:this.password})
         },
         enter:function(strategyId,brokerName){
           socket.on("enter",()=>{
             this.loader=false
           })
           this.loader=true
-          socket.emit("enter",{strategyId,brokerName})
+          socket.emit("enter",{data:{strategyId,brokerName},password:this.password})
         },
         exit:function(strategyId,brokerName){
           socket.on("exit",()=>{
             this.loader=false
           })
           this.loader=true
-          socket.emit("exit",{strategyId,brokerName})
+          socket.emit("exit",{data:{strategyId,brokerName},password:this.password})
+        },
+        findGetParameter:function(parameterName){
+            var result = null,
+                tmp = [];
+            location.search
+                .substr(1)
+                .split("&")
+                .forEach(function (item) {
+                  tmp = item.split("=");
+                  if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+                });
+            return result;
         },
         isSynced:function(strategyId){  
           if(this.data.position&&this.data.position[strategyId]){
