@@ -38,7 +38,7 @@ let creds= {FIVEPAISA_CREDS,
 let storedData
 
 
-console.log(creds,"Env variables")
+console.log(creds,"Env variables now")
 
 
 function set(data){
