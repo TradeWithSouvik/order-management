@@ -139,7 +139,9 @@ server.listen(process.env.PORT||1300, async() => {
         })
     })
     const url = process.env.HEROKU_APP_NAME?`https://${process.env.HEROKU_APP_NAME}.herokuapp.com/?password=${storedData.password}`:`http://localhost:${process.env.PORT||1300}/?password=${storedData.password}`
-    console.log(process.env.HEROKU_APP_NAME,"NAME")
+    storedData = await persist.get()
+    storedData.url=url
+    await persist.set(storedData)
     console.log("Default Directory",getDir())
     console.log('listening on *:',process.env.PORT||1300);
     console.log(`Click here to open link ${url}`)

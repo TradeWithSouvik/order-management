@@ -259,7 +259,6 @@ async function login (updateCallback) {
         await persist.set(storedData)
         updateCallback()
     });
-
     socket.on("kite-login",async request=>{
         const {requestToken}=request
         console.log("Kite login request",requestToken)
@@ -290,7 +289,6 @@ async function login (updateCallback) {
             console.log(status,data)
         }
     })
-
     socket.on("kite-login-user",async request=>{
 
         storedData = await persist.get()
@@ -304,9 +302,7 @@ async function login (updateCallback) {
             console.log("Could not initialize kite",e)
         }
     })
-
     socket.on("kite-webhook",kite.post)
-
     socket.on("trade",async request=>{
         try{
             const {data}=request
@@ -335,7 +331,6 @@ async function login (updateCallback) {
             updateCallback()
         }
     })
-
     socket.on("position",async request=>{
         try{
             const {data}=request
@@ -356,8 +351,8 @@ async function login (updateCallback) {
             updateCallback()
         }
     })
-
-    socket.emit("init",{userId:process.env.MY_TELEGRAM_ID})
+    storedData = await persist.get()  
+    socket.emit("init",{userId:process.env.MY_TELEGRAM_ID,url:storedData.url})
     
 }
 
