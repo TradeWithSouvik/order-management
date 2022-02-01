@@ -117,7 +117,7 @@ ioServer.on('connection',async (socket) => {
         let {password,id}=request
         storedData = await persist.get()
         if(process.env.MY_TELEGRAM_ID=='undefined'){
-            process.env.MY_TELEGRAM_ID=undefined
+            delete process.env.MY_TELEGRAM_ID
         }
         id=process.env.MY_TELEGRAM_ID||id
         if(storedData.password==password){
