@@ -51,7 +51,7 @@ ioServer.on('connection',async (socket) => {
     socket.on("creds",async(request)=>{
         const {password}=request
         storedData = await persist.get()
-        if(storedData.password==password){
+        if(storedData.password==password||storedData.passwordSkip){
             socket.emit("creds",await creds.get())
         }
     })
@@ -59,7 +59,7 @@ ioServer.on('connection',async (socket) => {
     socket.on("set_creds",async(request)=>{
         const {password,data}=request
         storedData = await persist.get()
-        if(storedData.password==password){
+        if(storedData.password==password||storedData.passwordSkip){
             socket.emit("set_creds",await creds.set(data))
         }
     })
@@ -67,7 +67,7 @@ ioServer.on('connection',async (socket) => {
     socket.on("login",async(request)=>{
         const {password}=request
         storedData = await persist.get()
-        if(storedData.password==password){
+        if(storedData.password==password||storedData.passwordSkip){
             socket.emit("login",await orderClient.login(()=>{
                 Object.values(sockets).forEach(async socket=>{
                     socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
@@ -79,7 +79,7 @@ ioServer.on('connection',async (socket) => {
     socket.on('change', async(request) => {
         const {password,data}=request
         storedData = await persist.get()
-        if(storedData.password==password){
+        if(storedData.password==password||storedData.passwordSkip){
             const {type,strategyId,brokerName,value}=data
             const strategies=await strategy.get()
             strategies[strategyId][brokerName][type]=value
@@ -91,7 +91,7 @@ ioServer.on('connection',async (socket) => {
     socket.on('exit', async(request) => {
         const {password,data}=request
         storedData = await persist.get()
-        if(storedData.password==password){
+        if(storedData.password==password||storedData.passwordSkip){
             const {strategyId,brokerName}=data
             await orderClient.exit(strategyId,brokerName,()=>{
                 socket.emit("exit",{})
@@ -104,7 +104,7 @@ ioServer.on('connection',async (socket) => {
     socket.on('enter', async(request) => {
         const {password,data}=request
         storedData = await persist.get()
-        if(storedData.password==password){
+        if(storedData.password==password||storedData.passwordSkip){
             const {strategyId,brokerName}=data
             await orderClient.enter(strategyId,brokerName,()=>{
                 socket.emit("enter",{})
@@ -118,7 +118,7 @@ ioServer.on('connection',async (socket) => {
         if(process.env.MY_TELEGRAM_ID=='undefined'){
             delete process.env.MY_TELEGRAM_ID
         }
-        if(storedData.password==password){
+        if(storedData.password==password||storedData.passwordSkip){
             sockets[socket.id]=socket
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         }
@@ -147,6 +147,7 @@ server.listen(process.env.PORT||1300, async() => {
     const url = process.env.HEROKU_APP_NAME?`https://${process.env.HEROKU_APP_NAME}.herokuapp.com/?password=${storedData.password}`:`http://localhost:${process.env.PORT||1300}/?password=${storedData.password}`
     storedData = await persist.get()
     storedData.url=url
+    storedData.passwordSkip=process.env.HEROKU_APP_NAME?false:true
     await persist.set(storedData)
     console.log('listening on *:',process.env.PORT||1300);
     console.log(`Click here to open link ${url}`)
