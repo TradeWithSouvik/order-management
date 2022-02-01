@@ -25,15 +25,15 @@ function get(){
         else{
             fs.readFile(`${process.cwd()}/data/strategies.json`, 'utf8', function(err, data){
                 
-                if (err) {
-                    return resolve({});
-                }
                 try{
-                    return resolve(JSON.parse(data));
+                    if(data){
+                        return resolve(JSON.parse(data));
+                    }
                 }
                 catch(e){
-                    return resolve({});
+                    console.log(e)
                 }
+                return resolve({});
             });
         }
     });

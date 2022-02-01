@@ -19,6 +19,7 @@ module.exports={
         socket.on("connect",async()=>{
                 
                 strategyConfig=await strategy.get()
+                storedData=await persist.get()
                 storedData.live=true
                 await persist.set(storedData)
                 await login(updateCallback)
@@ -32,6 +33,7 @@ module.exports={
                 socket.on("connect",async()=>{
                     console.log("Connection re-established.")
                     strategyConfig=await strategy.get()
+                    storedData=await persist.get()
                     storedData.live=true
                     await persist.set(storedData)
                     updateCallback()

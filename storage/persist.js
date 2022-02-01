@@ -42,15 +42,16 @@ module.exports.get=()=>{
             }
             fs.readFile(`${process.cwd()}/data/${formatDate(new Date())}.json`, 'utf8', function(err, data){
                 
-                if (err) {
-                    return resolve({});
-                }
+                
                 try{
-                    return resolve(JSON.parse(data));
+                    if(data){
+                        return resolve(JSON.parse(data));
+                    }
                 }
                 catch(e){
-                    return resolve({});
+                    console.log(e)
                 }
+                return resolve({});
             });
         }
     });

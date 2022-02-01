@@ -109,6 +109,30 @@
                     </table>
                 </div>
             </div>
+
+            <div v-if="data&&data.errors&&data.errors.length>0">
+                <br/>
+                <br/>
+                <h2>Errors</h2>
+                <br/>
+                <div class="table">
+                  <table>
+                      <thead>
+                          <tr>
+                              <th>Errors</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr v-for="(error,index) of data.errors" :key="index">
+                                <td>
+                                    {{error}}
+                                </td>
+                                <td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
             
             <div v-if="orders.length>0">
                 <br/>
@@ -266,18 +290,21 @@
                       </thead>
                       <tbody>
                           <tr v-for="(order,index) of angelResponses" :key="index">
-                              <td>
-                                  {{order.strategyId}}
-                              </td>
-                              <td>
-                                  {{order.orderid}}
-                              </td>
+                                <td>
+                                    {{order.strategyId}}
+                                </td>
+                                <td>
+                                    {{order.orderid}}
+                                </td>
                                 <td>
                                     {{order.message}}
                                 </td>
-                              <td>
-                                  {{order.time}}
-                              </td>
+                                <td>
+                                    {{order.script}}
+                                </td>
+                                <td>
+                                    {{order.time}}
+                                </td>
                           </tr>
                       </tbody>
                   </table>

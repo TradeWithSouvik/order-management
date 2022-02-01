@@ -52,23 +52,33 @@ module.exports={
         const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
         const expiryPrefix = [date,month,year].join("")
         for(const order of orders){
-            responses.push(await api.place_order({
-                'buy_or_sell' : `${order.type[0]}`,
-                'product_type' : 'M',
-                'exchange' : 'NFO',
-                'tradingsymbol'  :  `${order.script}${expiryPrefix}${order.optionType[0]}${order.strike}`,
-                'quantity' : qty,
-                'discloseqty' : 0,
-                'price_type' : 'MKT',
-                'price' : 0
-            })) 
+            try{
+                responses.push(await api.place_order({
+                    'buy_or_sell' : `${order.type[0]}`,
+                    'product_type' : 'M',
+                    'exchange' : 'NFO',
+                    'tradingsymbol'  :  `${order.script}${expiryPrefix}${order.optionType[0]}${order.strike}`,
+                    'quantity' : qty,
+                    'discloseqty' : 0,
+                    'price_type' : 'MKT',
+                    'price' : 0
+                })) 
+            
+            }
+            catch(e){
+                console.log("FINVAISA ORDER ERROR",e)
+                storedData=await persist.get()
+                storedData.errors=storedData.errors||[]
+                storedData.errors.push({timestamp:formatDateTime(new Date()),error:e.toString()+" Finvasia",strategyId})
+                await persist.set(storedData)
+            }
 
-            storedData=await persist.get()
-            storedData.fvResponses=storedData.fvResponses||[]
-            storedData.fvResponses.push({timestamp:formatDateTime(new Date()),responses,strategyId})
-            await persist.set(storedData)
         }
-
+        storedData=await persist.get()
+        storedData.fvResponses=storedData.fvResponses||[]
+        storedData.fvResponses.push({timestamp:formatDateTime(new Date()),responses,strategyId})
+        await persist.set(storedData)
+    
 
 
         return responses

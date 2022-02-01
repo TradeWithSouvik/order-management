@@ -41,26 +41,37 @@ module.exports={
         const expiryPrefix = [date,month,year].join("")
         for(const order of orders){
             const tradingSymbol = `${order.script}${expiryPrefix}${order.strike}${order.optionType}`
-            responses.push(await smart_api.placeOrder({
-                "variety": "NORMAL",
-                "tradingsymbol": tradingSymbol,
-                "symboltoken": instruments[tradingSymbol].token,
-                "transactiontype": order.type,
-                "exchange": "NFO",
-                "ordertype": "MARKET",
-                "producttype": "INTRADAY",
-                "duration": "DAY",
-                "price": "0",
-                "squareoff": "0",
-                "stoploss": "0",
-                "quantity": qty
-            })) 
+            try{
+                responses.push(await smart_api.placeOrder({
+                    "variety": "NORMAL",
+                    "tradingsymbol": tradingSymbol,
+                    "symboltoken": instruments[tradingSymbol].token,
+                    "transactiontype": order.type,
+                    "exchange": "NFO",
+                    "ordertype": "MARKET",
+                    "producttype": "INTRADAY",
+                    "duration": "DAY",
+                    "price": "0",
+                    "squareoff": "0",
+                    "stoploss": "0",
+                    "quantity": qty
+                })) 
+            }
+            catch(e){
+                console.log("ANGEL ORDER ERROR",e)
+                storedData=await persist.get()
+                storedData.errors=storedData.errors||[]
+                storedData.errors.push({timestamp:formatDateTime(new Date()),error:e.toString()+" Angel",strategyId})
+                await persist.set(storedData)
+            }
 
-            storedData=await persist.get()
-            storedData.angelResponses=storedData.angelResponses||[]
-            storedData.angelResponses.push({timestamp:formatDateTime(new Date()),responses,strategyId})
-            await persist.set(storedData)
         }
+
+
+        storedData=await persist.get()
+        storedData.angelResponses=storedData.angelResponses||[]
+        storedData.angelResponses.push({timestamp:formatDateTime(new Date()),responses,strategyId})
+        await persist.set(storedData)
 
 
 
