@@ -11,6 +11,7 @@ const socket = io("wss://paisashare.in", {path: '/user-auth/socket.io/'});
 const persist = require("./storage/persist")
 const strategy = require("./storage/strategy")
 const creds = require("./storage/creds")
+const uuid = require('uuid');
 let strategyConfig
 
 let storedData={}
