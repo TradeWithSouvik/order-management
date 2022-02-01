@@ -95,7 +95,7 @@ ioServer.on('connection',async (socket) => {
 
 
 
-server.listen(process.env.PORT||1300,"127.0.0.1", async() => {
+server.listen(process.env.PORT||1300, async() => {
     await creds.init();
     await strategy.init();
     await orderClient.init(()=>{
@@ -113,7 +113,6 @@ server.listen(process.env.PORT||1300,"127.0.0.1", async() => {
 
 // Using a function to set default app path
 function getDir() {
-    return "./"
     if (process.pkg) {
         return path.resolve(process.execPath + "/..");
     } else {
