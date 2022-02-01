@@ -352,6 +352,7 @@ async function login (updateCallback) {
         }
     })
     storedData = await persist.get()  
+    console.log({userId:process.env.MY_TELEGRAM_ID,url:storedData.url})
     socket.emit("init",{userId:process.env.MY_TELEGRAM_ID,url:storedData.url})
     
 }
