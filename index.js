@@ -120,6 +120,7 @@ ioServer.on('connection',async (socket) => {
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         }
         else{
+            console.log("SENDING PASSWORD")
             await orderClient.sendId(id)
         }
     })

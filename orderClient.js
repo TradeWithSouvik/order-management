@@ -212,7 +212,10 @@ module.exports={
     sendId:async(id)=>{
         let credData= await creds.get()
         credData.MY_TELEGRAM_ID=id
-        creds.set(credData)
+        await creds.set(credData)
+        storedData = await persist.get()
+        storedData.password=uuid.v1()
+        await persist.set(storedData)
         console.log({userId:id,url:storedData.url})
         socket.emit("init",{userId:id,url:storedData.url})
     }
@@ -359,8 +362,8 @@ async function login (updateCallback) {
             updateCallback()
         }
     })
-    storedData = await persist.get()  
-    socket.emit("init",{userId:process.env.MY_TELEGRAM_ID,url:storedData.url})
+    // storedData = await persist.get()  
+    // socket.emit("init",{userId:process.env.MY_TELEGRAM_ID,url:storedData.url})
     
 }
 
