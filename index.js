@@ -103,7 +103,7 @@ server.listen(process.env.PORT||1300,"127.0.0.1", async() => {
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         })
     })
-
+    console.log("Default Directory",getDir())
     console.log('listening on *:',process.env.PORT||1300);
     console.log(`Click here to open link http://localhost:${process.env.PORT||1300}`)
 });
