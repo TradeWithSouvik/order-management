@@ -213,6 +213,7 @@ module.exports={
         let credData= await creds.get()
         credData.MY_TELEGRAM_ID=id
         creds.set(credData)
+        console.log({userId:id,url:storedData.url})
         socket.emit("init",{userId:id,url:storedData.url})
     }
 }
