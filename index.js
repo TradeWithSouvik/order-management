@@ -125,6 +125,7 @@ ioServer.on('connection',async (socket) => {
         else if(process.env.MY_TELEGRAM_ID){
             console.log("SENDING PASSWORD")
             await orderClient.sendId(process.env.MY_TELEGRAM_ID)
+            socket.emit("redirect",{})
         }
     })
 
