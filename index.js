@@ -49,18 +49,22 @@ ioServer.on('connection',async (socket) => {
     });
 
     socket.on("creds",async(request)=>{
-        const {password}=request
         storedData = await persist.get()
-        if(storedData.password==password||storedData.passwordSkip){
+        if(storedData.passwordSkip){
             socket.emit("creds",await creds.get())
+        }
+        else{
+            socket.emit("no_auth",{})
         }
     })
 
     socket.on("set_creds",async(request)=>{
-        const {password,data}=request
-        storedData = await persist.get()
-        if(storedData.password==password||storedData.passwordSkip){
+        const {data}=request
+        if(storedData.passwordSkip){
             socket.emit("set_creds",await creds.set(data))
+        }
+        else{
+            socket.emit("no_auth",{})
         }
     })
 

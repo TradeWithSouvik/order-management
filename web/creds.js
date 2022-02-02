@@ -4,11 +4,15 @@ var app = new Vue({
     data: {
         creds:{},
         loader:true,
+        auth:true,
         password:""
     },
     methods: {
         init:function(){
             this.password=this.findGetParameter("password")
+            socket.on("no_auth",()=>{
+                this.auth=false
+            })
             socket.on("creds",(data)=>{
                 this.loader=false
                 this.creds=data

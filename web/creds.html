@@ -17,10 +17,11 @@
                     <a class="dark-empty" :href="'/?password='+password">Terminal </a>
                 </div>
             </div> 
+            
             <h1>Credentials</h1>
             <br/>
             <br/>
-            <div>
+            <div v-if="auth">
                 <label>FIVEPAISA_CREDS</label>
                 <input class="creds_input" type="password" v-model="creds.FIVEPAISA_CREDS">
                 <br/>
@@ -84,6 +85,9 @@
                 <br/>
                 <br/>
                 <br/>
+            </div>
+            <div v-if="!auth">
+                <p>You can not change credentials from this panel due to security reasons. Please change config values in heroku or .env file in dedicated server.</p>
             </div>
             <div id="footer">
                 <div class="footer-elements">
