@@ -79,8 +79,8 @@ async function init(){
             if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
                 const [_,strategyName,brokerName,type]=key.split("__")
                 if(type=="QTY"){
-                    strategies[strategyName]=data[strategyName]||{}
-                    strategies[strategyName][brokerName]=data[strategyName][brokerName]||{
+                    strategies[strategyName]=strategies[strategyName]||{}
+                    strategies[strategyName][brokerName]=strategies[strategyName][brokerName]||{
                         "ORDER":false,
                         "HEDGE":true,
                         "QTY":parseInt(process.env[key])
