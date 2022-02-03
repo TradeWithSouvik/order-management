@@ -31,7 +31,7 @@ function get(){
                         Object.keys(process.env).forEach((key)=>{
                             try{
                                 console.log(keys)
-                                if(key.startsWith("STRATEGY__")&&keys.endsWith("__QTY")){
+                                if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
                                     const [_,strategyName,brokerName,type]=key.split("__")
                                     if(type=="QTY"){
                                         data[strategyName]=data[strategyName]||{}
