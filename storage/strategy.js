@@ -27,10 +27,7 @@ function get(){
                 
                 try{
                     if(data){
-                        data=JSON.parse(data)
-                        
-                        
-                        return resolve(data);
+                        return resolve(JSON.parse(data));
                     }
                 }
                 catch(e){
