@@ -69,53 +69,31 @@ async function init(){
             }
         }
         
+        strategies=_savedStategies
+       
 
-        Object.keys(process.env).forEach((key)=>{
-            try{
-                console.log(key)
-                if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
-                    const [_,strategyName,brokerName,type]=key.split("__")
-                    if(type=="QTY"){
-                        data[strategyName]=data[strategyName]||{}
-                        data[strategyName][brokerName]=data[strategyName][brokerName]||{
-                            "ORDER":false,
-                            "HEDGE":true,
-                            "QTY":parseInt(process.env[key])
-                        }
+    }
+
+    Object.keys(process.env).forEach((key)=>{
+        try{
+            if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
+                const [_,strategyName,brokerName,type]=key.split("__")
+                if(type=="QTY"){
+                    strategies[strategyName]=data[strategyName]||{}
+                    strategies[strategyName][brokerName]=data[strategyName][brokerName]||{
+                        "ORDER":false,
+                        "HEDGE":true,
+                        "QTY":parseInt(process.env[key])
                     }
                 }
             }
-            catch(e){
-                console.log(e)
-            }
-        })
-
-        await set(_savedStategies)
-    }
-    else{
-
-        Object.keys(process.env).forEach((key)=>{
-            try{
-                console.log(key)
-                if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
-                    const [_,strategyName,brokerName,type]=key.split("__")
-                    if(type=="QTY"){
-                        data[strategyName]=data[strategyName]||{}
-                        data[strategyName][brokerName]=data[strategyName][brokerName]||{
-                            "ORDER":false,
-                            "HEDGE":true,
-                            "QTY":parseInt(process.env[key])
-                        }
-                    }
-                }
-            }
-            catch(e){
-                console.log(e)
-            }
-        })
-        
-        await set(strategies)
-    }
+        }
+        catch(e){
+            console.log(e)
+        }
+    })
+    
+    await set(strategies)
 
 
 }
