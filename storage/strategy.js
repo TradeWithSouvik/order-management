@@ -29,25 +29,6 @@ function get(){
                     if(data){
                         data=JSON.parse(data)
                         
-                        Object.keys(process.env).forEach((key)=>{
-                            try{
-                                console.log(key)
-                                if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
-                                    const [_,strategyName,brokerName,type]=key.split("__")
-                                    if(type=="QTY"){
-                                        data[strategyName]=data[strategyName]||{}
-                                        data[strategyName][brokerName]=data[strategyName][brokerName]||{
-                                            "ORDER":false,
-                                            "HEDGE":true,
-                                            "QTY":parseInt(process.env[key])
-                                        }
-                                    }
-                                }
-                            }
-                            catch(e){
-                                console.log(e)
-                            }
-                        })
                         
                         return resolve(data);
                     }
@@ -90,11 +71,52 @@ async function init(){
                 }
             }
         }
-        // console.log("saved strategies",_savedStategies)
+        
+
+        Object.keys(process.env).forEach((key)=>{
+            try{
+                console.log(key)
+                if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
+                    const [_,strategyName,brokerName,type]=key.split("__")
+                    if(type=="QTY"){
+                        data[strategyName]=data[strategyName]||{}
+                        data[strategyName][brokerName]=data[strategyName][brokerName]||{
+                            "ORDER":false,
+                            "HEDGE":true,
+                            "QTY":parseInt(process.env[key])
+                        }
+                    }
+                }
+            }
+            catch(e){
+                console.log(e)
+            }
+        })
+
         await set(_savedStategies)
     }
     else{
-        // console.log("strategies",strategies)
+
+        Object.keys(process.env).forEach((key)=>{
+            try{
+                console.log(key)
+                if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
+                    const [_,strategyName,brokerName,type]=key.split("__")
+                    if(type=="QTY"){
+                        data[strategyName]=data[strategyName]||{}
+                        data[strategyName][brokerName]=data[strategyName][brokerName]||{
+                            "ORDER":false,
+                            "HEDGE":true,
+                            "QTY":parseInt(process.env[key])
+                        }
+                    }
+                }
+            }
+            catch(e){
+                console.log(e)
+            }
+        })
+        
         await set(strategies)
     }
 
