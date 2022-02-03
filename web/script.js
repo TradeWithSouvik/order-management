@@ -11,7 +11,8 @@ var app = new Vue({
         strategies:[],
         loader:false,
         kiteKey:"",
-        password:""
+        password:"",
+        placedTrade:false
     },
     methods: {
         init:function(){
@@ -170,6 +171,10 @@ var app = new Vue({
           })
           this.loader=true
           socket.emit("enter",{data:{strategyId,brokerName},password:this.password})
+          this.placedTrade=true
+          setTimeout(()=>{
+            this.placedTrade=false
+          },10000)
         },
         exit:function(strategyId,brokerName){
           socket.on("exit",()=>{
@@ -177,6 +182,10 @@ var app = new Vue({
           })
           this.loader=true
           socket.emit("exit",{data:{strategyId,brokerName},password:this.password})
+          this.placedTrade=true
+          setTimeout(()=>{
+            this.placedTrade=false
+          },10000)
         },
         findGetParameter:function(parameterName){
             var result = null,

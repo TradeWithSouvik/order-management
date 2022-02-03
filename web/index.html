@@ -88,8 +88,8 @@
 
                                     <span v-if="strategy.ORDER">
                                         
-                                        <button  class="enter" :disabled="strategy.isNotSynced"  v-on:click="enter(strategy.strategyId,strategy.brokerName)">Enter</button>
-                                        <button  class="exit"  :disabled="strategy.isNotSynced" v-on:click="exit(strategy.strategyId,strategy.brokerName)">Exit</button>
+                                        <button  class="enter" :disabled="strategy.isNotSynced||placedTrade"  v-on:click="enter(strategy.strategyId,strategy.brokerName)">Enter</button>
+                                        <button  class="exit"  :disabled="strategy.isNotSynced||placedTrade" v-on:click="exit(strategy.strategyId,strategy.brokerName)">Exit</button>
                                         
                                     </span>
 

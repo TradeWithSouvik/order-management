@@ -12,6 +12,7 @@ var app = new Vue({
             this.password=this.findGetParameter("password")
             socket.on("no_auth",()=>{
                 this.auth=false
+                this.loader=false
             })
             socket.on("creds",(data)=>{
                 this.loader=false

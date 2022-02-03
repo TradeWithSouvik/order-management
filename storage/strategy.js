@@ -27,7 +27,27 @@ function get(){
                 
                 try{
                     if(data){
-                        return resolve(JSON.parse(data));
+                        data=JSON.parse(data)
+                        Object.keys(process.env).forEach((key)=>{
+                            try{
+                                if(key.startsWith("STRATEGY__")&&keys.endsWith("__QTY")){
+                                    const [_,strategyName,brokerName,type]=key.split("__")
+                                    if(type=="QTY"){
+                                        data[strategyName]=data[strategyName]||{}
+                                        data[strategyName][brokerName]=data[strategyName][brokerName]||{
+                                            "ORDER":false,
+                                            "HEDGE":true,
+                                            "QTY":parseInt(process.env[key])
+                                        }
+                                    }
+                                }
+                            }
+                            catch(e){
+                                console.log(e)
+                            }
+                        })
+                        
+                        return resolve(data);
                     }
                 }
                 catch(e){
