@@ -41,6 +41,20 @@
                 <br/>
                 <h2>Strategies</h2>
                 <br/>
+
+                <label >Strategy Name</label>
+                <input class="large" type="text" v-model="strategyName">
+                <label >Strategy Type</label>
+                <select v-model="brokerName" id="option_type">
+                    <option value="KITE">ZERODHA KITE</option>
+                    <option value="FIVEPAISA">5PAISA</option>
+                    <option value="FINVASIA">FINVASIA</option>
+                    <option value="ANGEL">ANGEL BROKING</option>
+                </select>
+                <label >Strategy Qty</label>
+                <input type="number" v-model="qty">
+                <button v-on:click="addStrategy">Add Strategy</button>
+                <br/>
                 <div class="table">
                     <table>
                         <thead>

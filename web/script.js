@@ -12,7 +12,10 @@ var app = new Vue({
         loader:false,
         kiteKey:"",
         password:"",
-        placedTrade:false
+        placedTrade:false,
+        strategyName:"",
+        brokerName:"",
+        qty:undefined,
     },
     methods: {
         init:function(){
@@ -154,6 +157,41 @@ var app = new Vue({
           // console.log(this.kiteKey)
           window.open(`https://kite.trade/connect/login?api_key=${this.kiteKey}&v=3`, "_blank");
         },
+        addStrategy:function(){
+          if(this.strategyName&&this.brokerName&&this.qty){
+            socket.on("add_strategy",(strategies)=>{
+              this.strategyName=""
+              this.brokerName=""
+              this.qty=undefined
+              this.loader=false
+              this.strategies=[]
+                
+                try{
+                  if(strategies){
+                    Object.keys(strategies).forEach(id=>{
+                      
+                      Object.keys(strategies[id]).forEach(brokerName=>{
+                          const el= strategies[id][brokerName]
+                          el.strategyId=id
+                          el.brokerName=brokerName
+                          this.strategies.push(el)
+                          this.isSynced(id)
+                      })
+                    })
+                    this.strategies.sort((a,b)=>-a.ORDER+b.ORDER)
+                  
+                  }
+                }
+                catch(e){
+                  console.log("strategy error",e)
+                }
+              
+            })
+            this.loader=true
+            socket.emit("add_strategy",{data:{strategyName:this.strategyName,brokerName:this.brokerName,qty:this.qty},password:this.password})
+
+          }
+        },
         changeSettings:function(type,strategyId,brokerName,index,value){
           socket.on("change",()=>{
             this.strategies[index][type]=value
@@ -174,7 +212,7 @@ var app = new Vue({
           this.placedTrade=true
           setTimeout(()=>{
             this.placedTrade=false
-          },10000)
+          },2000)
         },
         exit:function(strategyId,brokerName){
           socket.on("exit",()=>{
@@ -185,7 +223,7 @@ var app = new Vue({
           this.placedTrade=true
           setTimeout(()=>{
             this.placedTrade=false
-          },10000)
+          },2000)
         },
         findGetParameter:function(parameterName){
             var result = null,

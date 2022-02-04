@@ -1,5 +1,5 @@
 const fs = require("fs")
-const strategies = require("./strategies.json")
+let strategies = require("./strategies.json")
 
 let storedData
 

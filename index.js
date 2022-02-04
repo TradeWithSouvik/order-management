@@ -92,6 +92,23 @@ ioServer.on('connection',async (socket) => {
         }
     });
 
+
+    socket.on('add_strategy', async(request) => {
+        const {password,data}=request
+        if(storedData.password==password||storedData.passwordSkip){
+            const {strategyName,brokerName,qty}=data
+            const strategies=await strategy.get()
+            strategies[strategyName]=strategies[strategyName]||{}
+            strategies[strategyName][brokerName]={
+                "ORDER":false,
+                "HEDGE":true,
+                "QTY":qty
+            }
+            await strategy.set(strategies)
+            socket.emit("add_strategy",strategies)
+        }
+    });
+
     socket.on('exit', async(request) => {
         const {password,data}=request
         storedData = await persist.get()
@@ -148,13 +165,14 @@ server.listen(process.env.PORT||1300, async() => {
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         })
     })
-    const url = process.env.HEROKU_APP_NAME?`https://${process.env.HEROKU_APP_NAME}.herokuapp.com/?password=${storedData.password}`:`http://127.0.0.1:${process.env.PORT||1300}/?password=${storedData.password}`
+
+    console.log("SENDING PASSWORD")
+    await orderClient.sendId(process.env.MY_TELEGRAM_ID)
     storedData = await persist.get()
-    storedData.url=url
     storedData.passwordSkip=process.env.HEROKU_APP_NAME?false:true
     await persist.set(storedData)
     console.log('listening on *:',process.env.PORT||1300);
-    console.log(`Click here to open link ${url}`)
+    console.log(`Click here to open link ${storedData.url}`)
     console.log("PASSWORD is",storedData.password)
 });
 

@@ -638,7 +638,7 @@
     }
 
     input{
-      width:1em;
+      width:3em;
     }
 
     .nav{
@@ -675,4 +675,8 @@
       border-radius: 5px;
       color: #fff;
       font-weight: bold;
+    }
+
+    .large{
+      width:10em
     }
