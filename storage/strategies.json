@@ -1,3 +1,24 @@
 {
-   
+    "NIFTY_ic_intraday":{
+        "KITE":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":50
+        },
+        "FINVASIA":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":50
+        },
+        "FIVEPAISA":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":50
+        },
+        "ANGEL":{
+            "ORDER":false,
+            "HEDGE":true,
+            "QTY":50
+        }
+    }
 }
