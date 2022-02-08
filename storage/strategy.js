@@ -77,7 +77,7 @@ async function init(){
     Object.keys(process.env).forEach((key)=>{
         try{
             if(key.startsWith("STRATEGY__")&&key.endsWith("__QTY")){
-                const [_,strategyName,brokerName,type]=key.split("__")
+                const [_,brokerName,strategyName,type]=key.split("__")
                 if(type=="QTY"){
                     strategies[strategyName]=strategies[strategyName]||{}
                     strategies[strategyName][brokerName]=strategies[strategyName][brokerName]||{
