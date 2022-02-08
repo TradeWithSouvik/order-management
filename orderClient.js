@@ -264,7 +264,7 @@ async function login (updateCallback) {
         console.log("Finvasia Login Complete")
     }
     catch(e){
-        console.log("Could not initialize 5Paisa",e)
+        console.log("Could not initialize Finvasia",e)
     }
     socket.on("disconnect", async() => {
         console.log("Disconnected from server. Trying to reconnect")
