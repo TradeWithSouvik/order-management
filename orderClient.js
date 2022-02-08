@@ -321,7 +321,7 @@ async function login (updateCallback) {
         try{
             const {data}=request
             const {requestOrders,strategyId,expiry}=data
-            console.log("Order for ",strategyId)
+            console.log("Order for ",strategyId,strategyConfig)
             strategyConfig=await strategy.get()
             if(strategyConfig[strategyId]){
                 console.log("Trading orders",strategyId,expiry,requestOrders)
