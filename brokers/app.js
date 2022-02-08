@@ -14,7 +14,7 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
     
     strategyConfig=await strategy.get()
 
-    if(strategyConfig[strategyId].ANGEL.ORDER&&tradeInAngel){
+    if(strategyConfig[strategyId].ANGEL&&strategyConfig[strategyId].ANGEL.ORDER&&tradeInAngel){
         
 
         setTimeout(async()=>{
@@ -45,7 +45,7 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
         
         console.log("::TRIED TO PLACE A TRADE IN ANGEL::")
     }
-    if(strategyConfig[strategyId].FINVASIA.ORDER&&tradeInFinvasia){
+    if(strategyConfig[strategyId].FINVASIA&&strategyConfig[strategyId].FINVASIA.ORDER&&tradeInFinvasia){
         
 
         setTimeout(async()=>{
@@ -76,7 +76,7 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
         
         console.log("::TRIED TO PLACE A TRADE IN FINVASIA::")
     }
-    if(strategyConfig[strategyId].FIVEPAISA.ORDER&&tradeInFp){
+    if(strategyConfig[strategyId].FIVEPAISA&&strategyConfig[strategyId].FIVEPAISA.ORDER&&tradeInFp){
         
 
         setTimeout(async()=>{
@@ -107,7 +107,7 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
         
         console.log("::TRIED TO PLACE A TRADE IN 5PAISA::")
     }
-    if(strategyConfig[strategyId].KITE.ORDER&&tradeInKite){
+    if(strategyConfig[strategyId].KITE&&strategyConfig[strategyId].KITE.ORDER&&tradeInKite){
 
         setTimeout(async()=>{
             try{
