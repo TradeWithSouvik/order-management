@@ -104,7 +104,22 @@
         "required": true
       },
       "STRATEGY__FINVASIA__NIFTY_ic_intraday__QTY":{
-        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
+        "description": "Trade quantity for nifty bot in Finvasia",
+        "required": true,
+        "value":"50"
+      },
+      "STRATEGY__KITE__NIFTY_ic_intraday__QTY":{
+        "description": "Trade quantity for nifty bot in Kite",
+        "required": true,
+        "value":"50"
+      },
+      "STRATEGY__FIVEPAISA__NIFTY_ic_intraday__QTY":{
+        "description": "Trade quantity for nifty bot in Fivepaisa",
+        "required": true,
+        "value":"50"
+      },
+      "STRATEGY__ANGEL__NIFTY_ic_intraday__QTY":{
+        "description": "Trade quantity for nifty bot in Angel",
         "required": true,
         "value":"50"
       },
