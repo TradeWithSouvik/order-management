@@ -11,83 +11,110 @@
         "url": "https://github.com/TradeWithSouvik/order-management"
       }
     ],
-    "addons": [],
+    "addons": ["runtime-dyno-metadata"],
   
     "env": {
       "MY_TELEGRAM_ID": {
         "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
         "required": true
       },
+      "STRATEGY__FINVASIA__NIFTY_ic_intraday__QTY":{
+        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
+        "required": true,
+        "value":"50"
+      },
+      "TZ":{
+        "description": "Time Zone",
+        "required": true,
+        "value":"Asia/Kolkata"
+      },
 
       "FIVEPAISA_CREDS": {
-        "description": "Five paisa Credentials, to be saved as `<email>,<password>,<dob in yyyymmyy format>`"
+        "description": "Five paisa Credentials, to be saved as `<email>,<password>,<dob in yyyymmyy format>`",
+        "required": false
       },
 
       "FIVEPAISA_APPSOURCE": {
-        "description": "Five paisa App source"
+        "description": "Five paisa App source",
+        "required": false
       },
 
       "FIVEPAISA_APPNAME": {
-        "description": "Five paisa App name"
+        "description": "Five paisa App name",
+        "required": false
       },
 
       "FIVEPAISA_USERID": {
-        "description": "Five paisa User id in encrypted format"
+        "description": "Five paisa User id in encrypted format",
+        "required": false
       },
 
       "FIVEPAISA_USERKEY": {
-        "description": "Five paisa User key in encrypted format"
+        "description": "Five paisa User key in encrypted format",
+        "required": false
       },
 
       "FIVEPAISA_PASSWORD": {
-        "description": "Five paisa password in encrypted format"
+        "description": "Five paisa password in encrypted format",
+        "required": false
       },
 
       "FIVEPAISA_ENCRYPTIONKEY": {
-        "description": "Five paisa encryption key"
+        "description": "Five paisa encryption key",
+        "required": false
       },
 
 
 
       "FINVASIA_UID": {
-        "description": "Finvaisa UID"
+        "description": "Finvaisa UID",
+        "required": false
       },
 
       "FINVASIA_PASSWORD": {
-        "description": "Finvasia Password"
+        "description": "Finvasia Password",
+        "required": false
       },
 
       "FINVASIA_DOB": {
-        "description": "Finvaisa DOB/PAN"
+        "description": "Finvaisa DOB/PAN",
+        "required": false
       },
 
       "FINVASIA_API_KEY": {
-        "description": "Finvasia API Key"
+        "description": "Finvasia API Key",
+        "required": false
       },
 
       "FINVASIA_IMEI": {
-        "description": "Finvasia IMEI"
+        "description": "Finvasia IMEI",
+        "required": false
       },
 
 
       "KITE_API_KEY": {
-        "description": "Kite Api Key"
+        "description": "Kite Api Key",
+        "required": false
       },
 
       "KITE_API_SECRET": {
-        "description": "Kite Api Secret"
+        "description": "Kite Api Secret",
+        "required": false
       },
 
       "ANGEL_API_KEY": {
-        "description": "Angel Api Key"
+        "description": "Angel Api Key",
+        "required": false
       },
 
       "ANGEL_CLIENT_CODE": {
-        "description": "Angel Client Code"
+        "description": "Angel Client Code",
+        "required": false
       },
 
       "ANGEL_PASSWORD": {
-        "description": "Angel Password"
+        "description": "Angel Password",
+        "required": false
       }
 
 
