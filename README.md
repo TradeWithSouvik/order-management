@@ -8,6 +8,14 @@ Download and install Node js application from here https://nodejs.org/en/downloa
 
 ### Run
 
+#### Heroku
+
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TradeWithSouvik/order-management)
+
+#### Local
+
+[Download, unzip and Run](https://github.com/TradeWithSouvik/order-management/archive/refs/heads/master.zip)
 - For Windows, run index-win.exe
 - For Mac, run index-macos
 - For Linux, run index-linux

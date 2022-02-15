@@ -1,0 +1,100 @@
+{
+    "name": "order-manager",
+    "description": "Order Management System",
+    "repository": "https://github.com/TradeWithSouvik/order-management",
+    "logo": "https://paisashare.in/images/logo-with-title.png",
+    "website": "https://paisashare.in/strategy/backtesting/",
+    "keywords": ["trade", "order", "market"],
+  
+    "buildpacks": [
+      {
+        "url": "https://github.com/TradeWithSouvik/order-management"
+      }
+    ],
+    "addons": [],
+  
+    "env": {
+      "MY_TELEGRAM_ID": {
+        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
+        "required": true
+      },
+
+      "FIVEPAISA_CREDS": {
+        "description": "Five paisa Credentials, to be saved as `<email>,<password>,<dob in yyyymmyy format>`"
+      },
+
+      "FIVEPAISA_APPSOURCE": {
+        "description": "Five paisa App source"
+      },
+
+      "FIVEPAISA_APPNAME": {
+        "description": "Five paisa App name"
+      },
+
+      "FIVEPAISA_USERID": {
+        "description": "Five paisa User id in encrypted format"
+      },
+
+      "FIVEPAISA_USERKEY": {
+        "description": "Five paisa User key in encrypted format"
+      },
+
+      "FIVEPAISA_PASSWORD": {
+        "description": "Five paisa password in encrypted format"
+      },
+
+      "FIVEPAISA_ENCRYPTIONKEY": {
+        "description": "Five paisa encryption key"
+      },
+
+
+
+      "FINVASIA_UID": {
+        "description": "Finvaisa UID"
+      },
+
+      "FINVASIA_PASSWORD": {
+        "description": "Finvasia Password"
+      },
+
+      "FINVASIA_DOB": {
+        "description": "Finvaisa DOB/PAN"
+      },
+
+      "FINVASIA_API_KEY": {
+        "description": "Finvasia API Key"
+      },
+
+      "FINVASIA_IMEI": {
+        "description": "Finvasia IMEI"
+      },
+
+
+      "KITE_API_KEY": {
+        "description": "Kite Api Key"
+      },
+
+      "KITE_API_SECRET": {
+        "description": "Kite Api Secret"
+      },
+
+      "ANGEL_API_KEY": {
+        "description": "Angel Api Key"
+      },
+
+      "ANGEL_CLIENT_CODE": {
+        "description": "Angel Client Code"
+      },
+
+      "ANGEL_PASSWORD": {
+        "description": "Angel Password"
+      }
+
+
+
+
+    },
+  
+  
+    "success_url": "/"
+  }
