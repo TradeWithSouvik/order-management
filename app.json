@@ -11,8 +11,9 @@
         "url": "https://github.com/TradeWithSouvik/order-management"
       }
     ],
-    "addons": ["runtime-dyno-metadata"],
-  
+    "labs": [
+      "runtime-dyno-metadata"
+    ],
     "env": {
       "MY_TELEGRAM_ID": {
         "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
