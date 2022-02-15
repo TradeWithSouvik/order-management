@@ -15,20 +15,6 @@
       "runtime-dyno-metadata"
     ],
     "env": {
-      "MY_TELEGRAM_ID": {
-        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
-        "required": true
-      },
-      "STRATEGY__FINVASIA__NIFTY_ic_intraday__QTY":{
-        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
-        "required": true,
-        "value":"50"
-      },
-      "TZ":{
-        "description": "Time Zone",
-        "required": true,
-        "value":"Asia/Kolkata"
-      },
 
       "FIVEPAISA_CREDS": {
         "description": "Five paisa Credentials, to be saved as `<email>,<password>,<dob in yyyymmyy format>`",
@@ -116,6 +102,21 @@
       "ANGEL_PASSWORD": {
         "description": "Angel Password",
         "required": false
+      },
+
+      "MY_TELEGRAM_ID": {
+        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
+        "required": true
+      },
+      "STRATEGY__FINVASIA__NIFTY_ic_intraday__QTY":{
+        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
+        "required": true,
+        "value":"50"
+      },
+      "TZ":{
+        "description": "Time Zone",
+        "required": true,
+        "value":"Asia/Kolkata"
       }
 
 
