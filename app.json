@@ -6,11 +6,6 @@
     "website": "https://paisashare.in/strategy/backtesting/",
     "keywords": ["trade", "order", "market"],
   
-    "buildpacks": [
-      {
-        "url": "https://github.com/TradeWithSouvik/order-management"
-      }
-    ],
     "labs": [
       "runtime-dyno-metadata"
     ],
