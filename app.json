@@ -127,6 +127,11 @@
         "description": "Time Zone",
         "required": true,
         "value":"Asia/Kolkata"
+      },
+      "HEROKU_APP_NAME":{
+        "description": "Name of the Heroku App",
+        "required": true
+
       }
 
 
