@@ -100,7 +100,7 @@
       },
 
       "MY_TELEGRAM_ID": {
-        "description": "Telegram Id which you can find at https://t.me/tws_option_strategy_bot by typing `/me`",
+        "description": "Telegram Id which you can find at https://telegram.me/tws_option_strategy_bot by typing `/me`",
         "required": true
       },
       "STRATEGY__FINVASIA__NIFTY_ic_intraday__QTY":{
