@@ -1,4 +1,9 @@
-var socket = io(window.location.origin);
+var socket = io(window.location.origin
+  , 
+  {
+  path: "/terminal/socket.io/"
+}
+);
 var app = new Vue({
     el: '#app',
     data: {

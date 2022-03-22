@@ -48,25 +48,25 @@ ioServer.on('connection',async (socket) => {
         delete sockets[socket.id]
     });
 
-    socket.on("creds",async(request)=>{
-        storedData = await persist.get()
-        if(storedData.passwordSkip){
-            socket.emit("creds",await creds.get())
-        }
-        else{
-            socket.emit("no_auth",{})
-        }
-    })
+    // socket.on("creds",async(request)=>{
+    //     storedData = await persist.get()
+    //     if(storedData.passwordSkip){
+    //         socket.emit("creds",await creds.get())
+    //     }
+    //     else{
+    //         socket.emit("no_auth",{})
+    //     }
+    // })
 
-    socket.on("set_creds",async(request)=>{
-        const {data}=request
-        if(storedData.passwordSkip){
-            socket.emit("set_creds",await creds.set(data))
-        }
-        else{
-            socket.emit("no_auth",{})
-        }
-    })
+    // socket.on("set_creds",async(request)=>{
+    //     const {data}=request
+    //     if(storedData.passwordSkip){
+    //         socket.emit("set_creds",await creds.set(data))
+    //     }
+    //     else{
+    //         socket.emit("no_auth",{})
+    //     }
+    // })
 
     socket.on("login",async(request)=>{
         const {password}=request
@@ -140,6 +140,7 @@ ioServer.on('connection',async (socket) => {
             delete process.env.MY_TELEGRAM_ID
         }
         if(storedData.password==password||storedData.passwordSkip){
+            console.log("AUTHENTICATED")
             sockets[socket.id]=socket
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
         }
@@ -154,7 +155,7 @@ ioServer.on('connection',async (socket) => {
 
 
 
-server.listen(process.env.PORT||1300, async() => {
+server.listen(process.env.PORT||1350, async() => {
     await creds.init();
     await strategy.init();
     storedData = await persist.get()
@@ -169,7 +170,7 @@ server.listen(process.env.PORT||1300, async() => {
     console.log("SENDING PASSWORD")
     await orderClient.sendId(process.env.MY_TELEGRAM_ID)
     storedData = await persist.get()
-    storedData.passwordSkip=process.env.HEROKU_APP_NAME?false:true
+    storedData.passwordSkip=false
     await persist.set(storedData)
     console.log('listening on *:',process.env.PORT||1300);
     console.log(`Click here to open link ${storedData.url}`)
