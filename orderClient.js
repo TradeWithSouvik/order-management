@@ -88,6 +88,61 @@ module.exports={
                     kiteExpiryPrefix:position.kiteExpiryPrefix
                 }]
             }
+            else if(position.context.strikes){
+                requestOrders=[]
+                if(position.context.strikes.buy){
+                    if(position.context.strikes.buy.call){
+                        requestOrders.push({
+                            type:"BUY",
+                            optionType:"CE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.buy.call,
+                            isHedge:true,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+                    if(position.context.strikes.buy.put){
+                        requestOrders.push({
+                            type:"BUY",
+                            optionType:"PE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.buy.put,
+                            isHedge:true,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+
+                }
+                if(position.context.strikes.sell){
+                    if(position.context.strikes.sell.call){
+                        requestOrders.push({
+                            type:"SELL",
+                            optionType:"CE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.sell.call,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+                    if(position.context.strikes.sell.put){
+                        requestOrders.push({
+                            type:"SELL",
+                            optionType:"PE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.sell.put,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+
+                }
+            }
             else if(position.context.strikeAtm){
                 requestOrders=[{
                     type:"SELL",
@@ -170,6 +225,61 @@ module.exports={
                     script:position.script,
                     kiteExpiryPrefix:position.kiteExpiryPrefix
                 }]
+            }
+            else if(position.context.strikes){
+                requestOrders=[]
+                if(position.context.strikes.sell){
+                    if(position.context.strikes.sell.call){
+                        requestOrders.push({
+                            type:"BUY",
+                            optionType:"CE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.sell.call,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+                    if(position.context.strikes.sell.put){
+                        requestOrders.push({
+                            type:"BUY",
+                            optionType:"PE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.sell.put,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+
+                }
+                if(position.context.strikes.buy){
+                    if(position.context.strikes.buy.call){
+                        requestOrders.push({
+                            type:"SELL",
+                            optionType:"CE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.buy.call,
+                            isHedge:true,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+                    if(position.context.strikes.buy.put){
+                        requestOrders.push({
+                            type:"SELL",
+                            optionType:"PE",
+                            time,
+                            ltp:0,
+                            strike:position.context.strikes.buy.put,
+                            isHedge:true,
+                            script:position.script,
+                            kiteExpiryPrefix:position.kiteExpiryPrefix
+                        })
+                    }
+
+                }
             }
             else if(position.context.strikeAtm){
                 requestOrders=[{

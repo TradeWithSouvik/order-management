@@ -1,6 +1,6 @@
 # Order Management System for TWS Algos
 
-This is an order management system for running algo trades offered by "Trade with souvik" (https://t.me/tradewithsouvikbot)
+This is an order management system for running algo trades offered by "Trade with souvik" (https://telegram.me/tradewithsouvikbot)
 
 ## Pre-requisites
 

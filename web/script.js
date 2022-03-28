@@ -147,7 +147,7 @@ var app = new Vue({
 
             })
             socket.on("redirect",(data)=>{
-              window.location=`https://t.me/tradewithsouvikbot`
+              window.location=`https://telegram.me/tradewithsouvikbot`
             })
             socket.emit("data",{password:this.password,id:this.id})
             
