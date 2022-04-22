@@ -87,6 +87,7 @@ module.exports={
         const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
         const expiryPrefix = [date,month,year].join("")
         const tradingSymbol = `${script}${expiryPrefix}FUT`
+        console.log(instruments[tradingSymbol])
         try{
             responses.push(await smart_api.placeOrder({
                 "variety": "NORMAL",
@@ -118,6 +119,8 @@ module.exports={
         const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
         const expiryPrefix = [date,month,year].join("")
         const tradingSymbol = `${script}${expiryPrefix}FUT`
+
+        console.log(instruments[tradingSymbol])
         try{
             responses.push(await smart_api.placeOrder({
                 "variety": "NORMAL",
