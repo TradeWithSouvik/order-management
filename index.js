@@ -57,6 +57,7 @@ ioServer.on('connection',async (socket) => {
     });
 
     socket.on("creds",async(request)=>{
+        const {password}=request
         storedData = await persist.get()
         
         if(storedData.passwordSkip){
@@ -72,6 +73,7 @@ ioServer.on('connection',async (socket) => {
 
     socket.on("set_creds",async(request)=>{
         const {data}=request
+        const {password}=request
         if(storedData.passwordSkip){
             socket.emit("set_creds",await creds.set(data))
         }
