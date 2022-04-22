@@ -36,7 +36,7 @@ module.exports={
                     'product_type' : 'M',
                     'exchange' : 'NFO',
                     'tradingsymbol'  :  `${script}${expiryPrefix}F`,
-                    'quantity' : scriptMap[script]*parseInt(qty),
+                    'quantity' : scriptMap[script]*Math.abs(parseInt(qty)),
                     'discloseqty' : 0,
                     'price_type' : 'MKT',
                     'price' : 0
@@ -69,7 +69,7 @@ module.exports={
                     'product_type' : 'M',
                     'exchange' : 'NFO',
                     'tradingsymbol'  :  `${script}${expiryPrefix}F`,
-                    'quantity' : scriptMap[script]*parseInt(qty),
+                    'quantity' : scriptMap[script]*Math.abs(parseInt(qty)),
                     'discloseqty' : 0,
                     'price_type' : 'MKT',
                     'price' : 0

@@ -100,7 +100,7 @@ module.exports={
                 "price": "0",
                 "squareoff": "0",
                 "stoploss": "0",
-                "quantity": scriptMap[script]*parseInt(qty)
+                "quantity": scriptMap[script]*Math.abs(parseInt(qty))
             })) 
         }
         catch(e){
@@ -131,7 +131,7 @@ module.exports={
                 "price": "0",
                 "squareoff": "0",
                 "stoploss": "0",
-                "quantity": scriptMap[script]*parseInt(qty)
+                "quantity": scriptMap[script]*Math.abs(parseInt(qty))
             })) 
         }
         catch(e){
