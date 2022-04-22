@@ -120,7 +120,7 @@ function addZero(val){
 }
 
 
-async function long(script,expiry){
+async function long(script,expiry,qty){
     const scriptMap={
         "NIFTY":50,
         "BANKNIFTY":25
@@ -139,7 +139,7 @@ async function long(script,expiry){
     }]))
     if(data.length!==1){ throw "Could not fetch data" }
     let _ = data[0]
-    return await client.placeOrder("BUY", _.Token, scriptMap[script], "N", {
+    return await client.placeOrder("BUY", _.Token, scriptMap[script]*parseInt(qty), "N", {
         exchangeSegment: "D",
         atMarket: true,
         isStopLossOrder: false,
@@ -172,7 +172,7 @@ async function short(script,expiry){
     }]))
     if(data.length!==1){ throw "Could not fetch data" }
     let _ = data[0]
-    return await client.placeOrder("SELL", _.Token,scriptMap[script], "N", {
+    return await client.placeOrder("SELL", _.Token,scriptMap[script]*parseInt(qty), "N", {
         exchangeSegment: "D",
         atMarket: true,
         isStopLossOrder: false,

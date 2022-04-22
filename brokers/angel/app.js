@@ -78,7 +78,7 @@ module.exports={
         return responses
         
     },
-    short:async(script,expiry)=>{
+    short:async(script,expiry,qty)=>{
         const scriptMap={
             "NIFTY":50,
             "BANKNIFTY":25
@@ -100,7 +100,7 @@ module.exports={
                 "price": "0",
                 "squareoff": "0",
                 "stoploss": "0",
-                "quantity": scriptMap[script]
+                "quantity": scriptMap[script]*parseInt(qty)
             })) 
         }
         catch(e){
@@ -109,7 +109,7 @@ module.exports={
         return responses
         
     },
-    long:async(script,expiry)=>{
+    long:async(script,expiry,qty)=>{
         const scriptMap={
             "NIFTY":50,
             "BANKNIFTY":25
@@ -131,7 +131,7 @@ module.exports={
                 "price": "0",
                 "squareoff": "0",
                 "stoploss": "0",
-                "quantity": scriptMap[script]
+                "quantity": scriptMap[script]*parseInt(qty)
             })) 
         }
         catch(e){

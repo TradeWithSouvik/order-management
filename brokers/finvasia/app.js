@@ -19,7 +19,7 @@ function open(data) {
 }
 
 module.exports={
-    long:async(script,expiry)=>{
+    long:async(script,expiry,qty)=>{
         const scriptMap={
             "NIFTY":50,
             "BANKNIFTY":25
@@ -27,7 +27,6 @@ module.exports={
         
         
 
-        const qty = scriptMap[script]
         let responses=[]
         const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
         const expiryPrefix = [date,month,year].join("")
@@ -37,7 +36,7 @@ module.exports={
                     'product_type' : 'M',
                     'exchange' : 'NFO',
                     'tradingsymbol'  :  `${script}${expiryPrefix}F`,
-                    'quantity' : qty,
+                    'quantity' : scriptMap[script]*parseInt(qty),
                     'discloseqty' : 0,
                     'price_type' : 'MKT',
                     'price' : 0
@@ -53,7 +52,7 @@ module.exports={
 
         return responses
     },
-    short:async(script,expiry)=>{
+    short:async(script,expiry,qty)=>{
         const scriptMap={
             "NIFTY":50,
             "BANKNIFTY":25
@@ -61,7 +60,6 @@ module.exports={
 
         
 
-        const qty = scriptMap[script]
         let responses=[]
         const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
         const expiryPrefix = [date,month,year].join("")
@@ -71,7 +69,7 @@ module.exports={
                     'product_type' : 'M',
                     'exchange' : 'NFO',
                     'tradingsymbol'  :  `${script}${expiryPrefix}F`,
-                    'quantity' : qty,
+                    'quantity' : scriptMap[script]*parseInt(qty),
                     'discloseqty' : 0,
                     'price_type' : 'MKT',
                     'price' : 0
