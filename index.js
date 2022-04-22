@@ -170,16 +170,16 @@ app.post("/tradingview-webhook",express.text(),async (req,res)=>{
             if(text.includes("sell")){
                 
                 if(BROKER=="FP"){
-                    const response = fp.short(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    const response = await fp.short(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
                 if(BROKER=="Fv"){
-                    const response = fv.short(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    const response = await fv.short(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
 
                 if(BROKER=="ANGEL"){
-                    const response = angel.short(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    const response = await angel.short(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
 
@@ -190,16 +190,16 @@ app.post("/tradingview-webhook",express.text(),async (req,res)=>{
             }
             else if (text.includes("buy")){
                 if(BROKER=="FP"){
-                    const response = fp.long(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    const response = await fp.long(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
                 if(BROKER=="Fv"){
-                    const response = fv.long(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    const response = await fv.long(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
 
                 if(BROKER=="ANGEL"){
-                    const response = angel.long(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    const response = await angel.long(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
 
