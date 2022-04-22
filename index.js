@@ -11,6 +11,14 @@ const path = require("path")
 
 const orderClient=require("./orderClient")
 
+
+const fv = require("./brokers/finvasia/app")
+const fp = require("./brokers/5paisa/app")
+const angel = require("./brokers/angel/app")
+const kite = require("./brokers/kite/app")
+
+
+
 const persist = require("./storage/persist")
 const strategy = require("./storage/strategy")
 const creds = require("./storage/creds")
@@ -150,6 +158,67 @@ ioServer.on('connection',async (socket) => {
         }
     })
 });
+
+
+app.post("/tradingview-webhook",express.text(),async (req,res)=>{
+    console.log(req.body,"TRADINGVIEW_URL")
+    const text = req.body
+    const SCRIPT=text.includes(`:BANKNIFTY1`)?"BANKNIFTY":(text.includes(`:NIFTY1`)?"NIFTY":undefined)
+    const MONTHLY_EXPIRY=test.split(":")[0]
+    if(SCRIPT){
+        try{
+            if(text.includes("sell")){
+                
+                if(text.endsWith(":FP")){
+                    const response = fp.short(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+                if(text.endsWith(":FV")){
+                    const response = fv.short(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+
+                if(text.endsWith(":ANGEL")){
+                    const response = angel.short(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+
+                if(text.endsWith(":KITE")){
+                    const response = kite.short(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+            }
+            else if (text.includes("buy")){
+                if(text.endsWith(":FP")){
+                    const response = fp.long(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+                if(text.endsWith(":FV")){
+                    const response = fv.long(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+
+                if(text.endsWith(":ANGEL")){
+                    const response = angel.long(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+
+                if(text.endsWith(":KITE")){
+                    const response = kite.long(SCRIPT,MONTHLY_EXPIRY)
+                    console.log(response)
+                }
+            }
+        }
+        catch(e){
+            console.log("Error",e)
+        }
+    }
+    
+    res.send("ok")
+})
+
+
+
 
 
 

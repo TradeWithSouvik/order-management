@@ -77,6 +77,68 @@ module.exports={
 
         return responses
         
+    },
+    short:async(script,expiry)=>{
+        const scriptMap={
+            "NIFTY":50,
+            "BANKNIFTY":25
+        }
+        let responses=[]
+        const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
+        const expiryPrefix = [date,month,year].join("")
+        const tradingSymbol = `${script}${expiryPrefix}FUT`
+        try{
+            responses.push(await smart_api.placeOrder({
+                "variety": "NORMAL",
+                "tradingsymbol": tradingSymbol,
+                "symboltoken": instruments[tradingSymbol].token,
+                "transactiontype": "SELL",
+                "exchange": "NFO",
+                "ordertype": "MARKET",
+                "producttype": "INTRADAY",
+                "duration": "DAY",
+                "price": "0",
+                "squareoff": "0",
+                "stoploss": "0",
+                "quantity": scriptMap[script]
+            })) 
+        }
+        catch(e){
+            console.log("ANGEL ORDER ERROR",e)
+        }
+        return responses
+        
+    },
+    long:async(script,expiry)=>{
+        const scriptMap={
+            "NIFTY":50,
+            "BANKNIFTY":25
+        }
+        let responses=[]
+        const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
+        const expiryPrefix = [date,month,year].join("")
+        const tradingSymbol = `${script}${expiryPrefix}FUT`
+        try{
+            responses.push(await smart_api.placeOrder({
+                "variety": "NORMAL",
+                "tradingsymbol": tradingSymbol,
+                "symboltoken": instruments[tradingSymbol].token,
+                "transactiontype": "BUY",
+                "exchange": "NFO",
+                "ordertype": "MARKET",
+                "producttype": "INTRADAY",
+                "duration": "DAY",
+                "price": "0",
+                "squareoff": "0",
+                "stoploss": "0",
+                "quantity": scriptMap[script]
+            })) 
+        }
+        catch(e){
+            console.log("ANGEL ORDER ERROR",e)
+        }
+        return responses
+        
     }
 }
 
