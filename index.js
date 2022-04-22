@@ -163,7 +163,7 @@ ioServer.on('connection',async (socket) => {
 app.post("/tradingview-webhook",express.text(),async (req,res)=>{
     console.log(req.body,"TRADINGVIEW_URL")
     const text = req.body
-    const [MONTHLY_EXPIRY,comment,ticker,action,price,QTY,low,high,interval,BROKER]=text.split(":")
+    const [MONTHLY_EXPIRY,comment,ticker,action,price,position,low,high,interval,QTY,BROKER]=text.split(":")
     const SCRIPT=text.includes(`:BANKNIFTY1`)?"BANKNIFTY":(text.includes(`:NIFTY1`)?"NIFTY":undefined)
     if(SCRIPT){
         try{

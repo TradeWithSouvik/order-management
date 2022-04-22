@@ -33,5 +33,5 @@ Download and install Node js application from here https://nodejs.org/en/downloa
     
 - And finally add this in the Message section
 
-    ```[28-Apr-2022]:{{strategy.order.comment}}:{{ticker}}:{{strategy.order.action}}:{{strategy.order.price}}:{{strategy.position_size}}:{{low}}:{{high}}:{{interval}}:[FP|FV|ANGEL]```
+    ```[28-Apr-2022]:{{strategy.order.comment}}:{{ticker}}:{{strategy.order.action}}:{{strategy.order.price}}:{{strategy.position_size}}:{{low}}:{{high}}:{{interval}}:1:[FP|FV|ANGEL]```
 
