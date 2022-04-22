@@ -58,7 +58,7 @@ ioServer.on('connection',async (socket) => {
 
     socket.on("creds",async(request)=>{
         storedData = await persist.get()
-        if(storedData.passwordSkip){
+        if(storedData.passwordSkip&&process.env.HEROKU_APP_NAME){
             socket.emit("creds",await creds.get())
         }
         else{
