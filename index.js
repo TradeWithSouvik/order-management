@@ -173,7 +173,7 @@ app.post("/tradingview-webhook",express.text(),async (req,res)=>{
                     const response = await fp.short(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
-                if(BROKER=="Fv"){
+                if(BROKER=="FV"){
                     const response = await fv.short(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
@@ -193,7 +193,7 @@ app.post("/tradingview-webhook",express.text(),async (req,res)=>{
                     const response = await fp.long(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
-                if(BROKER=="Fv"){
+                if(BROKER=="FV"){
                     const response = await fv.long(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
