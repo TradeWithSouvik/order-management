@@ -63,7 +63,7 @@ ioServer.on('connection',async (socket) => {
         if(storedData.passwordSkip){
             socket.emit("creds",await creds.get())
         }
-        else if(process.env.HEROKU_APP_NAME&&storedData.password==password){
+        else if(!process.env.HEROKU_APP_NAME&&storedData.password==password){
                 socket.emit("creds",await creds.get())
         }
         else{
@@ -77,7 +77,7 @@ ioServer.on('connection',async (socket) => {
         if(storedData.passwordSkip){
             socket.emit("set_creds",await creds.set(data))
         }
-        else if(process.env.HEROKU_APP_NAME&&storedData.password==password){
+        else if(!process.env.HEROKU_APP_NAME&&storedData.password==password){
             socket.emit("creds",await creds.get())
         }
         else{
@@ -156,6 +156,7 @@ ioServer.on('connection',async (socket) => {
         if(process.env.MY_TELEGRAM_ID=='undefined'){
             delete process.env.MY_TELEGRAM_ID
         }
+        console.log(storedData.password,password,storedData.passwordSkip,process.env.MY_TELEGRAM_ID)
         if(storedData.password==password||storedData.passwordSkip){
             sockets[socket.id]=socket
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
