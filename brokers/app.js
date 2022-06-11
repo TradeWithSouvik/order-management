@@ -123,6 +123,8 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
                 const requestDataSell={
                     orders:requestOrdersSell,expiry
                 }
+                console.log("KITE TRADE")
+                console.log(strategyId,[requestDataBuy,requestDataSell])
                 console.log(await kiteOrder.order(strategyId,[requestDataBuy,requestDataSell],bot))
             }
             catch(e){
