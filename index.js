@@ -63,7 +63,7 @@ ioServer.on('connection',async (socket) => {
         if(storedData.passwordSkip){
             socket.emit("creds",await creds.get())
         }
-        else if(!process.env.HEROKU_APP_NAME&&storedData.password==password){
+        else if(process.env.HEROKU_APP_NAME&&storedData.password==password){
                 socket.emit("creds",await creds.get())
         }
         else{
@@ -77,7 +77,7 @@ ioServer.on('connection',async (socket) => {
         if(storedData.passwordSkip){
             socket.emit("set_creds",await creds.set(data))
         }
-        else if(!process.env.HEROKU_APP_NAME&&storedData.password==password){
+        else if(process.env.HEROKU_APP_NAME&&storedData.password==password){
             socket.emit("creds",await creds.get())
         }
         else{
