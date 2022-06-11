@@ -156,7 +156,6 @@ ioServer.on('connection',async (socket) => {
         if(process.env.MY_TELEGRAM_ID=='undefined'){
             delete process.env.MY_TELEGRAM_ID
         }
-        console.log(storedData.password,password,storedData.passwordSkip,process.env.MY_TELEGRAM_ID)
         if(storedData.password==password||storedData.passwordSkip){
             sockets[socket.id]=socket
             socket.emit("data",{data:await persist.get(),strategies:await strategy.get(),kiteKey:process.env.KITE_API_KEY})
@@ -248,6 +247,7 @@ server.listen(process.env.PORT||1300, async() => {
     console.log("SENDING PASSWORD")
     await orderClient.sendId(process.env.MY_TELEGRAM_ID)
     storedData = await persist.get()
+    console.log(process.env.HEROKU_APP_NAME)
     storedData.passwordSkip=process.env.HEROKU_APP_NAME?false:true
     storedData.passwordSkip=process.env.APP_NAME?false:true
     await persist.set(storedData)
