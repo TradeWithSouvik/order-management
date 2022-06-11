@@ -123,7 +123,7 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
                 const requestDataSell={
                     orders:requestOrdersSell,expiry
                 }
-                await kiteOrder.order(strategyId,[requestDataBuy,requestDataSell],bot)
+                console.log(await kiteOrder.order(strategyId,[requestDataBuy,requestDataSell],bot))
             }
             catch(e){
                 bot.sendMessage(`Error in Placing kite Order ${e}`)
