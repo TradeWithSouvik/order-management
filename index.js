@@ -247,9 +247,11 @@ server.listen(process.env.PORT||1300, async() => {
     console.log("SENDING PASSWORD")
     await orderClient.sendId(process.env.MY_TELEGRAM_ID)
     storedData = await persist.get()
-    console.log(process.env.HEROKU_APP_NAME)
     storedData.passwordSkip=process.env.HEROKU_APP_NAME?false:true
-    storedData.passwordSkip=process.env.APP_NAME?false:true
+    if(!process.env.HEROKU_APP_NAME){
+        storedData.passwordSkip=process.env.APP_NAME?false:true
+    }
+    console.log(storedData.passwordSkip)
     await persist.set(storedData)
     console.log('listening on *:',process.env.PORT||1300);
     console.log(`Click here to open link ${storedData.url}`)
