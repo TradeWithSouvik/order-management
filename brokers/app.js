@@ -10,7 +10,7 @@ module.exports.order=order
 
 
 async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeInFp=true,tradeInFinvasia=true,tradeInAngel=true){
-    
+    console.log(strategyId,requestOrders,expiry)
     strategyConfig=await strategy.get()
 
     if(strategyConfig[strategyId].ANGEL&&strategyConfig[strategyId].ANGEL.ORDER&&tradeInAngel){
