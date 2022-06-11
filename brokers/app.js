@@ -10,7 +10,7 @@ module.exports.order=order
 
 
 async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeInFp=true,tradeInFinvasia=true,tradeInAngel=true){
-    console.log(strategyId,requestOrders,expiry)
+    
     strategyConfig=await strategy.get()
 
     if(strategyConfig[strategyId].ANGEL&&strategyConfig[strategyId].ANGEL.ORDER&&tradeInAngel){
@@ -123,9 +123,7 @@ async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeI
                 const requestDataSell={
                     orders:requestOrdersSell,expiry
                 }
-                console.log("KITE TRADE")
-                console.log(strategyId,[requestDataBuy,requestDataSell])
-                console.log(await kiteOrder.order(strategyId,[requestDataBuy,requestDataSell],bot))
+                await kiteOrder.order(strategyId,[requestDataBuy,requestDataSell],bot)
             }
             catch(e){
                 bot.sendMessage(`Error in Placing kite Order ${e}`)
