@@ -186,9 +186,34 @@ async function short(script,expiry,qty){
     })
 }
 
+async function exitAll(){
+    try{
+        let positions=(await client.getPositions()).filter(pos=>pos.NetQty!=0)
+        for(let pos of positions){
+            await client.placeOrder(pos.NetQty>0?"SELL":"BUY", pos.ScripCode, Math.abs(pos.NetQty), "N", {
+                exchangeSegment: "D",
+                atMarket: true,
+                isStopLossOrder: false,
+                stopLossPrice: 0,
+                isVTD: false,
+                isIOCOrder: false,
+                isIntraday: false,
+                ahPlaced: "N",
+                IOCOrder: false,
+                price: 0
+            })
+        }
+    }
+    catch(e){
+        console.log(e)
+    }
+    
+}
+
 module.exports.init=init
 module.exports.long=long
 module.exports.short=short
+module.exports.exitAll=exitAll
 module.exports.placeOrder=placeOrder
 
 
