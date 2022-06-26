@@ -176,47 +176,22 @@ app.post("/tradingview-webhook",express.text(),async (req,res)=>{
     const SCRIPT=text.includes(`:BANKNIFTY1`)?"BANKNIFTY":(text.includes(`:NIFTY1`)?"NIFTY":undefined)
     if(SCRIPT){
         try{
-            if(text.includes("sell")){
-                
-                if(BROKER=="FP"){
+                if(comment.includes("exit")||text.includes("exit")){
+
+                    await fp.exitAll()
+                }
+                else if(text.includes("sell")){
+                    await fp.exitAll()
+                    await waitForAWhile(2000)
                     const response = await fp.short(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
-                if(BROKER=="FV"){
-                    const response = await fv.short(SCRIPT,MONTHLY_EXPIRY,QTY)
-                    console.log(response)
-                }
-
-                if(BROKER=="ANGEL"){
-                    const response = await angel.short(SCRIPT,MONTHLY_EXPIRY,QTY)
-                    console.log(response)
-                }
-
-                // if(BROKER=="KITE"){
-                //     const response = kite.short(SCRIPT,MONTHLY_EXPIRY,QTY)
-                //     console.log(response)
-                // }
-            }
-            else if (text.includes("buy")){
-                if(BROKER=="FP"){
+                else if (text.includes("buy")){
+                    await fp.exitAll()
+                    await waitForAWhile(2000)
                     const response = await fp.long(SCRIPT,MONTHLY_EXPIRY,QTY)
                     console.log(response)
                 }
-                if(BROKER=="FV"){
-                    const response = await fv.long(SCRIPT,MONTHLY_EXPIRY,QTY)
-                    console.log(response)
-                }
-
-                if(BROKER=="ANGEL"){
-                    const response = await angel.long(SCRIPT,MONTHLY_EXPIRY,QTY)
-                    console.log(response)
-                }
-
-                // if(BROKER=="KITE"){
-                //     const response = kite.long(SCRIPT,MONTHLY_EXPIRY,QTY)
-                //     console.log(response)
-                // }
-            }
         }
         catch(e){
             console.log("Error",e)
@@ -229,7 +204,11 @@ app.post("/tradingview-webhook",express.text(),async (req,res)=>{
 
 
 
-
+async function waitForAWhile(time){
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,time)
+    })
+}
 
 
 server.listen(process.env.PORT||1300, async() => {
