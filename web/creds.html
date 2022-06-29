@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Options Algo Trading Bot</title>
+   <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+
+
+
+
+        <div id="app" class="body"  style="display:none">
+            <div :class="loader===true?'blur':''"  id="backtest">
+                <div id="header">
+                    <div class="logo"><img src="https://paisashare.in/images/logo.png" alt=""> </div>
+                    <div class="nav">
+                        <a class="dark-empty" :href="'/?password='+password">Terminal </a>
+                    </div>
+                </div> 
+                
+                <h1>Credentials</h1>
+                <br/>
+                <br/>
+                <div v-if="auth">
+                    <label>FIVEPAISA_CREDS</label>
+                    <input class="creds_input" type="password" v-model="creds.FIVEPAISA_CREDS">
+                    <br/>
+                    <label>FIVEPAISA_APPSOURCE</label>
+                    <input class="creds_input" type="password" v-model="creds.FIVEPAISA_APPSOURCE">
+                    <br/>
+                    <label>FIVEPAISA_APPNAME</label>
+                    <input class="creds_input" type="password" v-model="creds.FIVEPAISA_APPNAME">
+                    <br/>
+                    <label>FIVEPAISA_USERID</label>
+                    <input class="creds_input" type="password" v-model="creds.FIVEPAISA_USERID">
+                    <br/>
+                    <label>FIVEPAISA_PASSWORD</label>
+                    <input class="creds_input" type="password" v-model="creds.FIVEPAISA_PASSWORD">
+                    <br/>
+                    <label>FIVEPAISA_USERKEY</label>
+                    <input class="creds_input" type="password" v-model="creds.FIVEPAISA_USERKEY">
+                    <br/>
+                    <label>FIVEPAISA_ENCRYPTIONKEY</label>
+                    <input class="creds_input" type="password" v-model="creds.FIVEPAISA_ENCRYPTIONKEY">
+                    <br/>
+                    <label>FINVASIA_UID</label>
+                    <input class="creds_input" type="password" v-model="creds.FINVASIA_UID">
+                    <br/>
+                    <label>FINVASIA_PASSWORD</label>
+                    <input class="creds_input" type="password" v-model="creds.FINVASIA_PASSWORD">
+                    <br/>
+                    <label>FINVASIA_DOB</label>
+                    <input class="creds_input" type="password" v-model="creds.FINVASIA_DOB">
+                    <br/>
+                    <label>FINVASIA_API_KEY</label>
+                    <input class="creds_input" type="password" v-model="creds.FINVASIA_API_KEY">
+                    <br/>
+                    <label>FINVASIA_IMEI</label>
+                    <input class="creds_input" type="password" v-model="creds.FINVASIA_IMEI">
+                    <br/>
+                    <label>KITE_API_KEY</label>
+                    <input class="creds_input" type="password" v-model="creds.KITE_API_KEY">
+                    <br/>
+                    <label>KITE_API_SECRET</label>
+                    <input class="creds_input" type="password" v-model="creds.KITE_API_SECRET">
+                    <br/>
+                    <label>ANGEL_API_KEY</label>
+                    <input class="creds_input" type="password" v-model="creds.ANGEL_API_KEY">
+                    <br/>
+                    <label>ANGEL_CLIENT_CODE</label>
+                    <input class="creds_input" type="password" v-model="creds.ANGEL_CLIENT_CODE">
+                    <br/>
+                    <label>ANGEL_PASSWORD</label>
+                    <input class="creds_input" type="password" v-model="creds.ANGEL_PASSWORD">
+                    <br/>
+                    <label>MY_TELEGRAM_ID</label>
+                    <input class="creds_input" type="password" v-model="creds.MY_TELEGRAM_ID">
+                    <br/>
+                    <button class="on" v-on:click="save">Save</button>
+                    <button class="exit"  v-on:click="login">Re Login</button>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
+                <div v-if="!auth">
+                    <p>You can not change credentials from this panel due to security reasons. Please change config values in heroku or .env file in dedicated server.</p>
+                </div>
+            </div>
+            <div v-if="loader" class="loader">
+                <div>
+                    <img src="https://paisashare.in/images/loader.gif" alt="">
+                </div>
+            </div>
+            <div id="footer">
+                <div class="footer-elements">
+                    <p>Trade with Souvik</p>
+        
+                </div>
+                <div class="footer-elements">
+
+                    <a href="https://youtube.com/user/Souvik131?sub_confirmation=1" target="_blank"> <p>Subscribe and Learn on Youtube </p> <div><img src="https://paisashare.in/images/youtube.png" alt=""></div> </a>
+                </div>
+                <div  class="footer-elements">
+                <a href="https://telegram.me/TradeWithSouvikNow" target="_blank">
+                    <p>Join on Telegram </p> <div><img src="./images/telegram.png" alt=""></div></a>
+    
+            </div>
+
+            </div>
+        </div>
+       
+
+
+        
+  </body>
+
+
+
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> 
+  <script src="https://paisashare.in/niftybot/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
+  <script defer src="./creds.js"> </script>
+</html>

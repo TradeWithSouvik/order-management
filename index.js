@@ -11,6 +11,14 @@ const path = require("path")
 
 const orderClient=require("./orderClient")
 
+
+const fv = require("./brokers/finvasia/app")
+const fp = require("./brokers/5paisa/app")
+const angel = require("./brokers/angel/app")
+const kite = require("./brokers/kite/app")
+
+
+
 const persist = require("./storage/persist")
 const strategy = require("./storage/strategy")
 const creds = require("./storage/creds")
@@ -155,6 +163,46 @@ ioServer.on('connection',async (socket) => {
 });
 
 
+app.post("/tradingview-webhook",express.text(),async (req,res)=>{
+    console.log(req.body,"TRADINGVIEW_URL")
+    const text = req.body
+    const [MONTHLY_EXPIRY,comment,ticker,action,price,position,low,high,interval,QTY,BROKER]=text.split(":")
+    const SCRIPT=text.includes(`:BANKNIFTY1`)?"BANKNIFTY":(text.includes(`:NIFTY1`)?"NIFTY":undefined)
+    if(SCRIPT){
+        try{
+                if(comment.includes("exit")||text.includes("exit")){
+
+                    await fp.exitAll()
+                }
+                else if(text.includes("sell")){
+                    await fp.exitAll()
+                    await waitForAWhile(2000)
+                    const response = await fp.short(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    console.log(response)
+                }
+                else if (text.includes("buy")){
+                    await fp.exitAll()
+                    await waitForAWhile(2000)
+                    const response = await fp.long(SCRIPT,MONTHLY_EXPIRY,QTY)
+                    console.log(response)
+                }
+        }
+        catch(e){
+            console.log("Error",e)
+        }
+    }
+    
+    res.send("ok")
+})
+
+
+
+
+async function waitForAWhile(time){
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,time)
+    })
+}
 
 
 server.listen(process.env.PORT||1350, async() => {

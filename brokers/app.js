@@ -9,7 +9,6 @@ let strategyConfig
 module.exports.order=order
 
 
-
 async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeInFp=true,tradeInFinvasia=true,tradeInAngel=true){
     
     strategyConfig=await strategy.get()

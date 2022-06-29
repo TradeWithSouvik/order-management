@@ -19,6 +19,72 @@ function open(data) {
 }
 
 module.exports={
+    long:async(script,expiry,qty)=>{
+        const scriptMap={
+            "NIFTY":50,
+            "BANKNIFTY":25
+        }
+        
+        
+
+        let responses=[]
+        const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
+        const expiryPrefix = [date,month,year].join("")
+            try{
+                responses.push(await api.place_order({
+                    'buy_or_sell' : `B`,
+                    'product_type' : 'M',
+                    'exchange' : 'NFO',
+                    'tradingsymbol'  :  `${script}${expiryPrefix}F`,
+                    'quantity' : scriptMap[script]*Math.abs(parseInt(qty)),
+                    'discloseqty' : 0,
+                    'price_type' : 'MKT',
+                    'price' : 0
+                })) 
+            
+            }
+            catch(e){
+                console.log("FINVAISA ORDER ERROR",e)
+                if(typeof e=="object"){
+                    e=JSON.stringify(e)
+                }                                  
+            }
+
+        return responses
+    },
+    short:async(script,expiry,qty)=>{
+        const scriptMap={
+            "NIFTY":50,
+            "BANKNIFTY":25
+        }
+
+        
+
+        let responses=[]
+        const [_,date,month,year] = expiry.toUpperCase().match("(..).(...)...(..)")
+        const expiryPrefix = [date,month,year].join("")
+            try{
+                responses.push(await api.place_order({
+                    'buy_or_sell' : `S`,
+                    'product_type' : 'M',
+                    'exchange' : 'NFO',
+                    'tradingsymbol'  :  `${script}${expiryPrefix}F`,
+                    'quantity' : scriptMap[script]*Math.abs(parseInt(qty)),
+                    'discloseqty' : 0,
+                    'price_type' : 'MKT',
+                    'price' : 0
+                })) 
+            
+            }
+            catch(e){
+                console.log("FINVAISA ORDER ERROR",e)
+                if(typeof e=="object"){
+                    e=JSON.stringify(e)
+                }                      
+            }
+
+        return responses
+    },
     init:async()=>{
         let authparams  = {
             'userid'   : process.env.FINVASIA_UID,

@@ -119,7 +119,101 @@ function addZero(val){
     return val<10&&!val.startsWith("0")?"0"+val:val
 }
 
+
+async function long(script,expiry,qty){
+    const scriptMap={
+        "NIFTY":50,
+        "BANKNIFTY":25
+    }
+
+    const expiryCap=expiry.toUpperCase().replace(/-/g," ")
+    const expiryDate=new Date(expiryCap)
+    const data = (await client.getMarketFeed([ 
+    {   
+        "Exch": "N",
+        "ExchType": "D",
+        "Symbol": `${script} ${expiryCap}`,
+        "Expiry": `${formatDate(expiryDate)}`,
+        "StrikePrice": "0",
+        "OptionType": "XX" 
+    }]))
+    if(data.length!==1){ throw "Could not fetch data" }
+    let _ = data[0]
+    return await client.placeOrder("BUY", _.Token, scriptMap[script]*Math.abs(parseInt(qty)), "N", {
+        exchangeSegment: "D",
+        atMarket: true,
+        isStopLossOrder: false,
+        stopLossPrice: 0,
+        isVTD: false,
+        isIOCOrder: false,
+        isIntraday: false,
+        ahPlaced: "N",
+        IOCOrder: false,
+        price: 0
+    })
+}
+
+async function short(script,expiry,qty){
+    const scriptMap={
+        "NIFTY":50,
+        "BANKNIFTY":25
+    }
+
+    const expiryCap=expiry.toUpperCase().replace(/-/g," ")
+    const expiryDate=new Date(expiryCap)
+    const data = (await client.getMarketFeed([ 
+    {   
+        "Exch": "N",
+        "ExchType": "D",
+        "Symbol": `${script} ${expiryCap}`,
+        "Expiry": `${formatDate(expiryDate)}`,
+        "StrikePrice": "0",
+        "OptionType": "XX" 
+    }]))
+    if(data.length!==1){ throw "Could not fetch data" }
+    let _ = data[0]
+    return await client.placeOrder("SELL", _.Token,scriptMap[script]*Math.abs(parseInt(qty)), "N", {
+        exchangeSegment: "D",
+        atMarket: true,
+        isStopLossOrder: false,
+        stopLossPrice: 0,
+        isVTD: false,
+        isIOCOrder: false,
+        isIntraday: false,
+        ahPlaced: "N",
+        IOCOrder: false,
+        price: 0
+    })
+}
+
+async function exitAll(){
+    try{
+        let positions=(await client.getPositions()).filter(pos=>pos.NetQty!=0)
+        for(let pos of positions){
+            await client.placeOrder(pos.NetQty>0?"SELL":"BUY", pos.ScripCode, Math.abs(pos.NetQty), "N", {
+                exchangeSegment: "D",
+                atMarket: true,
+                isStopLossOrder: false,
+                stopLossPrice: 0,
+                isVTD: false,
+                isIOCOrder: false,
+                isIntraday: false,
+                ahPlaced: "N",
+                IOCOrder: false,
+                price: 0
+            })
+        }
+    }
+    catch(e){
+        console.log(e)
+    }
+    
+}
+
 module.exports.init=init
+module.exports.long=long
+module.exports.short=short
+module.exports.exitAll=exitAll
 module.exports.placeOrder=placeOrder
 
 
