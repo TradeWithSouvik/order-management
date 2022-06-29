@@ -30,6 +30,7 @@ const urlencodedParser = express.urlencoded({
     type: "application/x-www-form-urlencoded"
 });
 
+let autoSet=true
 let storedData
 app.use(jsonParser);
 
@@ -83,6 +84,7 @@ ioServer.on('connection',async (socket) => {
     socket.on('change', async(request) => {
         const {password,data}=request
         storedData = await persist.get()
+        autoSet=false
         if(storedData.password==password||storedData.passwordSkip){
             const {type,strategyId,brokerName,value}=data
             const strategies=await strategy.get()
@@ -177,8 +179,28 @@ server.listen(process.env.PORT||1350, async() => {
     console.log("PASSWORD is",storedData.password)
 });
 
-
-
+const sc = require("./strategyConfig.json")
+setInterval(async()=>{
+    const currentDate=new Date()
+    if(autoSet){
+        console.log("Updating auto settings")
+        const strategies=await strategy.get()
+        const day = currentDate.getDay()
+        for(const strategy of Object.keys(sc)){
+            for(const broker of Object.keys(sc[strategy])){
+                strategies[strategy][broker]["QTY"]=sc[strategy][broker]["QTY"][day-1]
+                strategies[strategy][broker]["HEDGE"]=sc[strategy][broker]["HEDGE"][day-1]
+                if(sc[strategy][broker]["QTY"][day-1]==="0"){
+                    strategies[strategy][broker]["ORDER"]=false
+                }
+                else{
+                    strategies[strategy][broker]["ORDER"]=true
+                }
+            }
+        }
+        await strategy.set(strategies)
+    }
+},30*1000)
 
 // Using a function to set default app path
 function getDir() {
