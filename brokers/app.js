@@ -10,7 +10,10 @@ module.exports.order=order
 
 
 async function order(strategyId,requestOrders,bot,expiry,tradeInKite=true,tradeInFp=true,tradeInFinvasia=true,tradeInAngel=true){
-    
+    if(process.env.TRADE_LIVE=="false"){
+        console.log("No trades allowed")
+        return
+    }
     strategyConfig=await strategy.get()
 
     if(strategyConfig[strategyId].ANGEL&&strategyConfig[strategyId].ANGEL.ORDER&&tradeInAngel){
